@@ -637,6 +637,101 @@ body{background:linear-gradient(90deg,#fff 0 36%,var(--navy-dark) 36% 100%);colo
   .footerline{padding:.75vh .7vw !important}
 }
 
+
+/* ============================================================
+   v7 · AJUSTE FINAL DE ENCUADRE DEL PANEL DERECHO
+   Mantiene todo el diseño y asegura que el marco naranja
+   inferior siempre quede dentro del viewport.
+   ============================================================ */
+
+html, body, .stage{
+  height:100%;
+  min-height:0;
+}
+
+/* El panel derecho queda estrictamente contenido en la pantalla */
+.right{
+  height:100vh !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+  padding:1.35vh 1.65vw 1.35vh !important;
+  align-items:stretch !important;
+}
+
+.board{
+  height:100% !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+  padding:1.45vh 1.6vw 1.15vh !important;
+}
+
+/* Subimos ligeramente todo el contenido sin alterar proporciones */
+.head{
+  min-height:9.4vh !important;
+  margin-bottom:.8vh !important;
+}
+.tablehead{
+  height:5.0vh !important;
+  flex:0 0 auto !important;
+}
+.rows{
+  flex:1 1 0 !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+}
+
+/* Las diez filas se reparten exactamente el alto disponible */
+.row{
+  height:10% !important;
+  min-height:0 !important;
+}
+
+/* Tarjetas inferiores un poco más arriba y compactas */
+.stats{
+  flex:0 0 auto !important;
+  min-height:9.2vh !important;
+  margin-top:.9vh !important;
+}
+.stat{
+  min-height:8.8vh !important;
+  padding:.45vh .7vw !important;
+}
+.stat-icon{
+  width:clamp(42px,3.7vw,72px) !important;
+  height:clamp(42px,3.7vw,72px) !important;
+}
+
+/* Protección adicional para pantallas con poca altura útil */
+@media (max-height:850px){
+  .right{
+    padding:.9vh 1.45vw !important;
+  }
+  .board{
+    padding:1vh 1.45vw .8vh !important;
+  }
+  .head{
+    min-height:8.3vh !important;
+    margin-bottom:.55vh !important;
+  }
+  .title-trophy{
+    width:clamp(54px,4.5vw,86px) !important;
+    height:clamp(54px,4.5vw,86px) !important;
+  }
+  .title{
+    font-size:clamp(31px,2.8vw,58px) !important;
+  }
+  .tablehead{
+    height:4.7vh !important;
+  }
+  .stats{
+    min-height:8.4vh !important;
+    margin-top:.65vh !important;
+  }
+  .stat{
+    min-height:8vh !important;
+  }
+}
+
 </style>
 </head>
 <body>
