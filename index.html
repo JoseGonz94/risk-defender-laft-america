@@ -1370,6 +1370,71 @@ body.rd-manual-fullscreen{
   #rd3 .cinema-sub{font-size:10px}
 }
 @media(max-width:560px){#rd3 .game{height:500px}#rd3 .inst{grid-template-columns:1fr}}
+
+/* ============================================================
+   v19 · AJUSTE FINAL DE JUGABILIDAD MÓVIL
+   ============================================================ */
+
+/* Flechas ~35% más grandes y con mejor área táctil */
+#rd3 #movebar button#left,
+#rd3 #movebar button#right{
+  width:84px !important;
+  height:84px !important;
+  min-height:84px !important;
+  border-radius:50% !important;
+  font-size:46px !important;
+  touch-action:manipulation !important;
+}
+
+/* Recolección: conservarlas equilibradas en los extremos */
+#rd3 #left{
+  left:12px !important;
+}
+#rd3 #right{
+  right:12px !important;
+}
+
+/* Jefe: las dos flechas juntas a la derecha, sin solaparse */
+#rd3.boss-ui #left{
+  left:auto !important;
+  right:108px !important;
+}
+#rd3.boss-ui #right{
+  left:auto !important;
+  right:12px !important;
+}
+
+/* KingRisk: nombre mucho más pegado al personaje */
+#rd3 .player .name{
+  position:relative !important;
+  top:-17px !important;
+  margin-top:0 !important;
+}
+
+/* Celular horizontal */
+@media(max-width:900px) and (orientation:landscape){
+  #rd3 #movebar{
+    height:78px !important;
+    bottom:6px !important;
+  }
+  #rd3 #movebar button#left,
+  #rd3 #movebar button#right{
+    width:76px !important;
+    height:76px !important;
+    min-height:76px !important;
+    font-size:42px !important;
+  }
+  #rd3.boss-ui #left{
+    right:98px !important;
+  }
+  #rd3.boss-ui #right{
+    right:10px !important;
+  }
+  #rd3 .player .name{
+    top:-15px !important;
+  }
+}
+
 </style>
 
 <div class="hud">
@@ -1767,7 +1832,17 @@ function move(d){if(s?.run){s.lane=cl(s.lane+d,0,4);player()}}
 function loop(now){if(!s.run)return;const dt=Math.min((now-last)/1000,.05);last=now;s.clock+=dt;if(s.phase==='collect'){s.t-=dt;const sec=Math.ceil(20+Math.max(0,s.t));$('timer').textContent=sec>=60?'01:00':'00:'+String(sec).padStart(2,'0');wait-=dt;if(wait<=0){spawn();wait=next()}drops(dt);if(s.t<=0)bossTransition()}else if(s.phase==='transition'){$('timer').textContent='00:20'}else if(s.phase==='boss'){s.t-=dt;$('timer').textContent='00:'+String(Math.max(0,Math.ceil(s.t))).padStart(2,'0');atk+=dt;if(atk>=1){atk-=1;enemy()}enemies(dt);shots(dt);active(dt,now);if(!s.run)return;if(s.t<=0)finish('time')}raf=requestAnimationFrame(loop)}
 $('aliasInput').addEventListener('input',()=>{const v=cleanAlias($('aliasInput').value);if($('aliasInput').value!==v)$('aliasInput').value=v;const ok=aliasValid(v);$('start').disabled=!ok;$('aliasHelp').textContent=ok?'✓ Alias listo para competir.':'2–12 caracteres. Letras, números, espacios, - o _.'});
 $('aliasInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!$('start').disabled){e.preventDefault();start()}});
-$('start').addEventListener('click',start);$('restart').addEventListener('click',start);$('fsBtn').addEventListener('click',toggleFullscreen);$('left').addEventListener('click',()=>move(-1));$('right').addEventListener('click',()=>move(1));$('fire').addEventListener('click',fire);$('shieldBtn').addEventListener('click',()=>power('preventive'));$('boostBtn').addEventListener('click',()=>power('detective'));$('mitBtn').addEventListener('click',()=>power('corrective'));$('soundBtn').addEventListener('click',()=>{initAudio();muted=!muted;$('soundBtn').textContent=muted?'🔇':'🔊';$('soundBtn').setAttribute('aria-label',muted?'Activar sonido':'Silenciar sonido');if(!muted)sfx('cash')});r.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')move(-1);if(e.key==='ArrowRight')move(1);if(e.key===' '&&s?.phase==='boss')fire()});
+$('start').addEventListener('click',start);$('restart').addEventListener('click',start);$('fsBtn').addEventListener('click',toggleFullscreen);
+const bindMove=(el,dir)=>{
+  if(window.PointerEvent){
+    el.addEventListener('pointerdown',e=>{e.preventDefault();move(dir)},{passive:false});
+  }else{
+    el.addEventListener('touchstart',e=>{e.preventDefault();move(dir)},{passive:false});
+    el.addEventListener('click',()=>move(dir));
+  }
+};
+bindMove($('left'),-1);bindMove($('right'),1);
+$('fire').addEventListener('click',fire);$('shieldBtn').addEventListener('click',()=>power('preventive'));$('boostBtn').addEventListener('click',()=>power('detective'));$('mitBtn').addEventListener('click',()=>power('corrective'));$('soundBtn').addEventListener('click',()=>{initAudio();muted=!muted;$('soundBtn').textContent=muted?'🔇':'🔊';$('soundBtn').setAttribute('aria-label',muted?'Activar sonido':'Silenciar sonido');if(!muted)sfx('cash')});r.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')move(-1);if(e.key==='ArrowRight')move(1);if(e.key===' '&&s?.phase==='boss')fire()});
 wireInGameUI();s=fresh();score();player();bars();controls();renderBoard(loadBoard(),'');
 if(onlineConfigured())setRankMode('RANKING ONLINE','Conectado al ranking compartido de LAFT América.');
 else setRankMode('RANKING LOCAL','Modo de prueba: falta conectar Supabase para compartir el ranking entre celulares.');
