@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#123e67">
 <title>Risk Defender · LAFT América</title>
 <style>html,body{margin:0;padding:0;background:#fff}body{padding:10px;max-width:980px;margin:0 auto}
@@ -410,6 +410,156 @@
   #rd3 #startOv .alias-box {
     margin: 2px auto;
   }
+}
+
+
+
+/* ============================================================
+   v14 · MODO INMERSIVO + AUTOAJUSTE REAL AL VIEWPORT
+   El juego ocupa exactamente la pantalla útil en móvil horizontal.
+   ============================================================ */
+@media (max-width: 900px) and (orientation: landscape) {
+  html, body {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    overscroll-behavior: none;
+    touch-action: manipulation;
+    background: #fff;
+  }
+
+  body {
+    position: fixed;
+    inset: 0;
+    max-width: none !important;
+  }
+
+  #rd3 {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    width: 100dvw;
+    height: 100vh;
+    height: 100dvh;
+    max-width: none !important;
+    margin: 0 !important;
+    padding:
+      max(2px, env(safe-area-inset-top))
+      max(4px, env(safe-area-inset-right))
+      max(2px, env(safe-area-inset-bottom))
+      max(4px, env(safe-area-inset-left));
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  #rd3 .hud {
+    flex: 0 0 auto;
+    min-height: 30px;
+    margin: 0;
+  }
+
+  #rd3 .rotate-screen {
+    flex: 0 0 auto;
+  }
+
+  #rd3 .game {
+    flex: 1 1 0;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0;
+  }
+
+  #rd3 > .bars,
+  #rd3 > .powers,
+  #rd3 > .movebar,
+  #rd3 > .queue {
+    flex: 0 0 auto;
+    margin-top: 0 !important;
+  }
+
+  #rd3 .bars {
+    min-height: 23px;
+  }
+
+  #rd3 .powers {
+    min-height: 40px;
+  }
+
+  #rd3 .movebar {
+    min-height: 46px;
+  }
+
+  #rd3 .queue {
+    max-height: 38px;
+    overflow: hidden;
+  }
+
+  #rd3 .movebar button {
+    min-height: 44px !important;
+    height: 44px;
+  }
+
+  #rd3 .power {
+    min-height: 38px !important;
+    height: 38px;
+  }
+
+  /* La pantalla inicial usa todo el viewport, sin dejar espacio
+     reservado para controles que aún no están en uso. */
+  #rd3:has(#startOv:not(.hidden)) .game {
+    flex: 1 1 0;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  #rd3:has(#startOv:not(.hidden)) > .bars,
+  #rd3:has(#startOv:not(.hidden)) > .powers,
+  #rd3:has(#startOv:not(.hidden)) > .movebar,
+  #rd3:has(#startOv:not(.hidden)) > .queue {
+    display: none !important;
+  }
+
+  /* En recolección no reservamos espacio para elementos del jefe. */
+  #rd3:has(#phase:not(:empty)) .game {
+    min-height: 0;
+  }
+
+  #rd3 .overlay {
+    overflow: hidden;
+  }
+
+  #rd3 #resultOv {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #rd3 button {
+    touch-action: manipulation;
+  }
+}
+
+/* Fullscreen API: elimina márgenes del navegador cuando el dispositivo
+   permite entrar en pantalla completa. */
+#rd3:fullscreen,
+#rd3:-webkit-full-screen {
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding:
+    max(2px, env(safe-area-inset-top))
+    max(4px, env(safe-area-inset-right))
+    max(2px, env(safe-area-inset-bottom))
+    max(4px, env(safe-area-inset-left)) !important;
+  background: #fff;
 }
 
 </style>
@@ -845,7 +995,44 @@ function falseBounce(icon){const n=document.createElement('div');n.className='fa
 function bars(){$('php').style.width=cl(s.p,0,100)+'%';$('bhp').style.width=cl(s.b,0,100)+'%';$('pht').textContent=Math.ceil(cl(s.p,0,100));$('bht').textContent=Math.ceil(cl(s.b,0,100))}
 function queue(){$('ammoCount').textContent=s.ammo.length;$('nextAmmo').textContent=s.ammo.length?(s.ammo[0].icon+' '+s.ammo[0].label):'—';$('qi').innerHTML=s.ammo.slice(0,7).map(x=>`<span class="q">${x.icon} ${x.label}</span>`).join('')||'—'}
 function controls(){$('sc').textContent=s.ctrl.preventive;$('bc').textContent=s.ctrl.detective;$('mc').textContent=s.ctrl.corrective;const ok=s.phase==='boss',busy=!!s.active;$('shieldBtn').disabled=!ok||busy||!s.ctrl.preventive;$('boostBtn').disabled=!ok||busy||!s.ctrl.detective;$('mitBtn').disabled=!ok||busy||!s.ctrl.corrective;$('fire').disabled=!ok||!s.ammo.length}
-function start(){const alias=cleanAlias($('aliasInput').value);if(!aliasValid(alias)){toast('ESCRIBE UN ALIAS DE 2 A 12 CARACTERES',900);$('aliasInput').focus();return}cancelAnimationFrame(raf);clearTimers();initAudio();if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();spawnBag=[];s=fresh(alias);$('hudAlias').textContent=alias;$('hudAlias').classList.remove('hidden');O.innerHTML='';F.innerHTML='';$('startOv').classList.add('hidden');$('resultOv').classList.add('hidden');$('boss').style.display='none';$('boss').classList.remove('laft','cst','hit','mitigating');clearPowerFx();setProg('preventive',0);setProg('detective',0);setProg('corrective',0);$('bars').style.display='none';$('fire').style.display='none';$('center').style.display='grid';$('queue').style.display='none';$('phase').textContent='PREPÁRATE';$('timer').textContent='01:00';s.run=false;s.phase='countdown';score();player();bars();queue();controls();r.focus();cinema('3','Ubica tus controles');sfx('count');schedule(()=>{cinema('2','Muévete con ← →');sfx('count')},650);schedule(()=>{cinema('1','¡Detecta lo que sí importa!');sfx('count')},1300);schedule(()=>{cinema('¡DEFIENDE TU EMPRESA!','40 segundos para recolectar');sfx('go')},1950);schedule(()=>{cinemaOff();launch()},2450)}
+
+async function enterImmersive(){
+  try{
+    const el = document.getElementById('rd3') || document.documentElement;
+
+    // El navegador solo permite fullscreen después de una interacción
+    // del usuario; INICIAR / JUGAR DE NUEVO cuentan como esa interacción.
+    if(!document.fullscreenElement && !document.webkitFullscreenElement){
+      if(el.requestFullscreen){
+        await el.requestFullscreen({navigationUI:'hide'}).catch(()=>{});
+      }else if(el.webkitRequestFullscreen){
+        el.webkitRequestFullscreen();
+      }
+    }
+
+    // Bloqueo horizontal cuando el navegador lo permite.
+    if(screen.orientation && screen.orientation.lock){
+      try{ await screen.orientation.lock('landscape'); }catch(e){}
+    }
+
+    // Recalcula el viewport después de ocultar barras del navegador.
+    setTimeout(()=>{
+      window.scrollTo(0,0);
+      document.documentElement.style.setProperty('--rd-vh', `${window.innerHeight}px`);
+    },120);
+  }catch(e){}
+}
+function fitViewport(){
+  document.documentElement.style.setProperty('--rd-vh', `${window.innerHeight}px`);
+  window.scrollTo(0,0);
+}
+window.addEventListener('resize',fitViewport,{passive:true});
+window.addEventListener('orientationchange',()=>setTimeout(fitViewport,180),{passive:true});
+document.addEventListener('fullscreenchange',fitViewport);
+document.addEventListener('webkitfullscreenchange',fitViewport);
+fitViewport();
+
+function start(){enterImmersive();const alias=cleanAlias($('aliasInput').value);if(!aliasValid(alias)){toast('ESCRIBE UN ALIAS DE 2 A 12 CARACTERES',900);$('aliasInput').focus();return}cancelAnimationFrame(raf);clearTimers();initAudio();if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();spawnBag=[];s=fresh(alias);$('hudAlias').textContent=alias;$('hudAlias').classList.remove('hidden');O.innerHTML='';F.innerHTML='';$('startOv').classList.add('hidden');$('resultOv').classList.add('hidden');$('boss').style.display='none';$('boss').classList.remove('laft','cst','hit','mitigating');clearPowerFx();setProg('preventive',0);setProg('detective',0);setProg('corrective',0);$('bars').style.display='none';$('fire').style.display='none';$('center').style.display='grid';$('queue').style.display='none';$('phase').textContent='PREPÁRATE';$('timer').textContent='01:00';s.run=false;s.phase='countdown';score();player();bars();queue();controls();r.focus();cinema('3','Ubica tus controles');sfx('count');schedule(()=>{cinema('2','Muévete con ← →');sfx('count')},650);schedule(()=>{cinema('1','¡Detecta lo que sí importa!');sfx('count')},1300);schedule(()=>{cinema('¡DEFIENDE TU EMPRESA!','40 segundos para recolectar');sfx('go')},1950);schedule(()=>{cinemaOff();launch()},2450)}
 function launch(){s.run=true;s.phase='collect';s.t=40;$('phase').textContent='RECOLECCIÓN';last=performance.now();wait=.65;atk=0;raf=requestAnimationFrame(loop)}
 function lane(){const v=[0,1,2,3,4].filter(i=>s.clock-s.lastLane[i]>.9);return rnd(v.length?v:[0,1,2,3,4])}
 function drop(item,type){const ln=lane();s.lastLane[ln]=s.clock;const e=document.createElement('div');e.className='drop'+(type==='cash'?' cash':'');e.style.left=L[ln]+'%';e.style.top='-72px';e.innerHTML=`<div class="i">${item.icon}</div><div class="l">${item.label}</div>`;O.appendChild(e);s.drops.push({e,item,type,ln,y:-16})}
