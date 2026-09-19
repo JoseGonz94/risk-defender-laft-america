@@ -1195,6 +1195,15 @@ body.rd-manual-fullscreen{
   }
 }
 </style>
+
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#11304f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Risk Defender">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
 </head>
 <body>
 <div id="rd3" tabindex="0">
@@ -1435,6 +1444,93 @@ body.rd-manual-fullscreen{
   }
 }
 
+
+/* ============================================================
+   v20 PWA · AJUSTE FINAL DEL BOTÓN DE DISPARO
+   ============================================================ */
+#rd3 #movebar button#fire{
+  width:84px !important;
+  height:84px !important;
+  min-height:84px !important;
+  border-radius:50% !important;
+  font-size:34px !important;
+  touch-action:manipulation !important;
+}
+@media(max-width:900px) and (orientation:landscape){
+  #rd3 #movebar button#fire{
+    width:76px !important;
+    height:76px !important;
+    min-height:76px !important;
+    font-size:31px !important;
+  }
+}
+
+
+/* ============================================================
+   v21 · WEB APP UNIVERSAL
+   iPhone: Safari viewport optimizado, sin botón fullscreen falso.
+   Otros navegadores compatibles: fullscreen real.
+   ============================================================ */
+html, body{
+  overscroll-behavior:none;
+}
+
+/* El alto real disponible se actualiza por JS con visualViewport/innerHeight */
+@media(max-width:900px) and (orientation:landscape){
+  body.rd-iphone{
+    width:100% !important;
+    height:var(--rd-vh, 100dvh) !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+    padding:
+      max(2px, env(safe-area-inset-top))
+      max(4px, env(safe-area-inset-right))
+      max(2px, env(safe-area-inset-bottom))
+      max(4px, env(safe-area-inset-left)) !important;
+    box-sizing:border-box !important;
+  }
+  body.rd-iphone #rd3{
+    height:100% !important;
+    max-height:100% !important;
+    display:flex !important;
+    flex-direction:column !important;
+    overflow:hidden !important;
+  }
+  body.rd-iphone #rd3 .hud{
+    flex:0 0 auto !important;
+    min-height:32px !important;
+    margin:0 0 3px !important;
+  }
+  body.rd-iphone #rd3 .game{
+    flex:1 1 auto !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    margin:0 !important;
+  }
+  body.rd-iphone #rd3 #fsBtn{
+    display:none !important;
+  }
+}
+
+/* Disparo = mismo tamaño que las flechas */
+#rd3 #movebar button#fire{
+  width:84px !important;
+  height:84px !important;
+  min-height:84px !important;
+  border-radius:50% !important;
+  font-size:34px !important;
+  touch-action:manipulation !important;
+}
+@media(max-width:900px) and (orientation:landscape){
+  #rd3 #movebar button#fire{
+    width:76px !important;
+    height:76px !important;
+    min-height:76px !important;
+    font-size:31px !important;
+  }
+}
+
 </style>
 
 <div class="hud">
@@ -1563,41 +1659,70 @@ function wireInGameUI(){
     if(el && el.parentElement!==game) game.appendChild(el);
   });
 }
-function toggleFullscreen(){
+function isIPhone(){
+  const ua=navigator.userAgent||'';
+  return /iPhone|iPod/i.test(ua);
+}
+function fullscreenCapable(){
   const el=r;
-  const entering=!el.classList.contains('manual-fs') &&
-                 !document.fullscreenElement &&
-                 !document.webkitFullscreenElement;
+  return !!(
+    document.fullscreenEnabled ||
+    document.webkitFullscreenEnabled ||
+    el.requestFullscreen ||
+    el.webkitRequestFullscreen
+  );
+}
+async function toggleFullscreen(){
+  /* iPhone Safari does not provide general HTML fullscreen.
+     The button is hidden there, so this guard is only defensive. */
+  if(isIPhone()) return;
 
-  if(entering){
-    el.classList.add('manual-fs');
-    document.documentElement.classList.add('rd-manual-fullscreen');
-    document.body.classList.add('rd-manual-fullscreen');
-    $('fsBtn').textContent='✕ Salir';
-    setTimeout(fitViewport,60);
-
-    // En navegadores que sí admiten fullscreen real, lo intentamos además
-    // del modo maximizado. En iPhone el fallback manual sigue funcionando.
-    try{
-      const p=el.requestFullscreen ? el.requestFullscreen({navigationUI:'hide'}) :
-              el.webkitRequestFullscreen ? el.webkitRequestFullscreen() : null;
-      if(p && typeof p.catch==='function') p.catch(()=>{});
-    }catch(e){}
-  }else{
-    el.classList.remove('manual-fs');
-    document.documentElement.classList.remove('rd-manual-fullscreen');
-    document.body.classList.remove('rd-manual-fullscreen');
-    $('fsBtn').textContent='⛶ Pantalla';
-    try{
-      if(document.fullscreenElement && document.exitFullscreen){
-        const p=document.exitFullscreen(); if(p&&p.catch)p.catch(()=>{});
-      }else if(document.webkitFullscreenElement && document.webkitExitFullscreen){
+  try{
+    if(document.fullscreenElement || document.webkitFullscreenElement){
+      if(document.exitFullscreen){
+        await document.exitFullscreen();
+      }else if(document.webkitExitFullscreen){
         document.webkitExitFullscreen();
       }
-    }catch(e){}
-    setTimeout(fitViewport,60);
+      return;
+    }
+
+    if(r.requestFullscreen){
+      await r.requestFullscreen({navigationUI:'hide'});
+    }else if(r.webkitRequestFullscreen){
+      r.webkitRequestFullscreen();
+    }
+  }catch(e){
+    /* If the browser rejects fullscreen, keep the game fully usable
+       in the normal responsive viewport instead of simulating fullscreen. */
+    configurePlatformUI();
+
+function syncFullscreenButton(){
+  if(isIPhone() || !fullscreenCapable()) return;
+  const on=!!(document.fullscreenElement||document.webkitFullscreenElement);
+  $('fsBtn').textContent=on?'✕ Salir':'⛶ Pantalla';
+}
+document.addEventListener('fullscreenchange',syncFullscreenButton);
+document.addEventListener('webkitfullscreenchange',syncFullscreenButton);
+
+fitViewport();
   }
 }
+function configurePlatformUI(){
+  const iphone=isIPhone();
+  document.body.classList.toggle('rd-iphone',iphone);
+
+  if(iphone){
+    $('fsBtn').style.display='none';
+  }else if(fullscreenCapable()){
+    $('fsBtn').style.display='';
+    $('fsBtn').textContent='⛶ Pantalla';
+    $('fsBtn').title='Pantalla completa';
+  }else{
+    $('fsBtn').style.display='none';
+  }
+}
+
 document.addEventListener('gesturestart',e=>{ if(r.contains(e.target)) e.preventDefault(); },{passive:false});
 let lastTouchEnd=0;
 document.addEventListener('touchend',e=>{
@@ -1773,10 +1898,15 @@ async function enterImmersive(){
   }catch(e){}
 }
 function fitViewport(){
-  document.documentElement.style.setProperty('--rd-vh', `${window.innerHeight}px`);
-  window.scrollTo(0,0);
+  const h=Math.round((window.visualViewport&&window.visualViewport.height)||window.innerHeight);
+  document.documentElement.style.setProperty('--rd-vh', `${h}px`);
+  if(isIPhone()) window.scrollTo(0,0);
 }
 window.addEventListener('resize',fitViewport,{passive:true});
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',fitViewport,{passive:true});
+  window.visualViewport.addEventListener('scroll',fitViewport,{passive:true});
+}
 window.addEventListener('orientationchange',()=>setTimeout(fitViewport,180),{passive:true});
 document.addEventListener('fullscreenchange',fitViewport);
 document.addEventListener('webkitfullscreenchange',fitViewport);
@@ -1842,12 +1972,27 @@ const bindMove=(el,dir)=>{
   }
 };
 bindMove($('left'),-1);bindMove($('right'),1);
-$('fire').addEventListener('click',fire);$('shieldBtn').addEventListener('click',()=>power('preventive'));$('boostBtn').addEventListener('click',()=>power('detective'));$('mitBtn').addEventListener('click',()=>power('corrective'));$('soundBtn').addEventListener('click',()=>{initAudio();muted=!muted;$('soundBtn').textContent=muted?'🔇':'🔊';$('soundBtn').setAttribute('aria-label',muted?'Activar sonido':'Silenciar sonido');if(!muted)sfx('cash')});r.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')move(-1);if(e.key==='ArrowRight')move(1);if(e.key===' '&&s?.phase==='boss')fire()});
-wireInGameUI();s=fresh();score();player();bars();controls();renderBoard(loadBoard(),'');
+if(window.PointerEvent){
+  $('fire').addEventListener('pointerdown',e=>{e.preventDefault();fire()},{passive:false});
+}else{
+  $('fire').addEventListener('touchstart',e=>{e.preventDefault();fire()},{passive:false});
+  $('fire').addEventListener('click',fire);
+}
+$('shieldBtn').addEventListener('click',()=>power('preventive'));$('boostBtn').addEventListener('click',()=>power('detective'));$('mitBtn').addEventListener('click',()=>power('corrective'));$('soundBtn').addEventListener('click',()=>{initAudio();muted=!muted;$('soundBtn').textContent=muted?'🔇':'🔊';$('soundBtn').setAttribute('aria-label',muted?'Activar sonido':'Silenciar sonido');if(!muted)sfx('cash')});r.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')move(-1);if(e.key==='ArrowRight')move(1);if(e.key===' '&&s?.phase==='boss')fire()});
+r.classList.remove('manual-fs');document.documentElement.classList.remove('rd-manual-fullscreen');document.body.classList.remove('rd-manual-fullscreen');wireInGameUI();s=fresh();score();player();bars();controls();renderBoard(loadBoard(),'');
 if(onlineConfigured())setRankMode('RANKING ONLINE','Conectado al ranking compartido de LAFT América.');
 else setRankMode('RANKING LOCAL','Modo de prueba: falta conectar Supabase para compartir el ranking entre celulares.');
 })();
 </script>
 </div>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', {scope:'./'}).catch(() => {});
+  });
+}
+</script>
+
 </body>
 </html>
