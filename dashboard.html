@@ -390,6 +390,170 @@ body{background:linear-gradient(90deg,#fff 0 36%,var(--navy-dark) 36% 100%);colo
   animation:newrow 1.3s ease !important;
 }
 
+
+/* ============================================================
+   v5 · ACERCAMIENTO AL MOCKUP APROBADO
+   ============================================================ */
+
+/* Fondo promocional: blanco con textura geométrica sutil */
+.left{
+  position:relative !important;
+  isolation:isolate;
+  background:
+    linear-gradient(135deg, rgba(13,95,134,.055) 0 12%, transparent 12% 28%),
+    linear-gradient(45deg, transparent 0 72%, rgba(13,95,134,.045) 72% 84%, transparent 84%),
+    #fff !important;
+}
+.left > *{
+  position:relative;
+  z-index:3;
+}
+/* Textura diagonal adicional */
+.left::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.7;
+  background:
+    linear-gradient(135deg, transparent 0 69%, rgba(5,47,77,.055) 69% 70%, transparent 70%),
+    linear-gradient(45deg, transparent 0 18%, rgba(5,47,77,.035) 18% 19%, transparent 19%);
+}
+/* Triángulo naranja inferior como en el mockup */
+.left::after{
+  content:"";
+  position:absolute;
+  z-index:1;
+  pointer-events:none;
+  right:-1px;
+  bottom:0;
+  width:0;
+  height:0;
+  border-left:72px solid transparent;
+  border-bottom:72px solid var(--orange);
+}
+/* pequeño acento azul en la esquina inferior izquierda */
+.stage::before{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  z-index:2;
+  width:0;height:0;
+  border-right:42px solid transparent;
+  border-bottom:118px solid var(--navy);
+  pointer-events:none;
+}
+
+/* Reparto vertical izquierdo: elimina la sensación de vacío */
+.brand{margin-bottom:1.15vh !important}
+.challenge{margin-bottom:.35vh !important}
+.sub{margin-bottom:1.0vh !important}
+.steps{margin-top:1.25vh !important}
+.footerline{
+  margin:1.55vh auto 0 !important;
+  padding:1.05vh .8vw !important;
+  border-top:2px solid #dce6ec !important;
+  border-bottom:0 !important;
+  font-size:clamp(15px,1.12vw,23px) !important;
+}
+
+/* Cabecera del ranking: mucho más cercana al mockup */
+.head{
+  min-height:10.8vh !important;
+  align-items:center !important;
+  margin-bottom:1.15vh !important;
+}
+.title-wrap{
+  display:flex;
+  align-items:center;
+  gap:1.05vw;
+  min-width:0;
+}
+.title-trophy{
+  flex:0 0 auto;
+  width:clamp(62px,5.2vw,105px);
+  height:clamp(62px,5.2vw,105px);
+  filter:drop-shadow(0 7px 10px rgba(244,154,8,.22));
+}
+.title{
+  font-size:clamp(34px,3.15vw,68px) !important;
+  line-height:.80 !important;
+  letter-spacing:-.045em !important;
+}
+.title span{
+  margin-top:.12em;
+}
+.live{
+  align-self:center !important;
+  font-size:clamp(12px,.9vw,18px) !important;
+}
+
+/* La tabla gana presencia vertical y reduce el vacío intermedio */
+.tablehead{
+  height:5.4vh !important;
+}
+.row{
+  min-height:47px !important;
+}
+.rows{
+  flex:1 1 auto !important;
+}
+
+/* Tarjetas inferiores con iconos reales en HTML/SVG */
+.stats{
+  min-height:11.2vh !important;
+  margin-top:1.45vh !important;
+}
+.stat{
+  min-height:10.5vh !important;
+  display:grid !important;
+  grid-template-columns:minmax(52px,27%) 1fr !important;
+  align-items:center !important;
+  justify-items:center !important;
+  padding:.65vh .75vw !important;
+}
+.stat-icon{
+  width:clamp(45px,4.2vw,82px);
+  height:clamp(45px,4.2vw,82px);
+  display:grid;
+  place-items:center;
+}
+.stat-icon svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
+.stat-copy{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  line-height:1.03;
+}
+.stat-copy b{
+  font-size:clamp(23px,2vw,42px) !important;
+  white-space:nowrap;
+}
+.stat-copy > span:not(.recordAlias){
+  font-size:clamp(10px,.78vw,16px) !important;
+  line-height:1.08;
+  text-align:center;
+}
+.recordAlias{
+  font-size:clamp(10px,.75vw,15px) !important;
+  margin-top:4px !important;
+}
+
+/* Borde y profundidad del panel, similar al mockup */
+.board{
+  background:
+    linear-gradient(115deg, rgba(14,72,106,.11) 0 16%, transparent 16% 62%, rgba(19,107,151,.07) 62% 64%, transparent 64%),
+    linear-gradient(180deg,rgba(5,26,43,.985),rgba(3,17,29,.99)) !important;
+}
+
 </style>
 </head>
 <body>
@@ -419,7 +583,22 @@ body{background:linear-gradient(90deg,#fff 0 36%,var(--navy-dark) 36% 100%);colo
   <section class="right">
     <div class="board">
       <div class="head">
-        <div class="title">🏆 TABLA DE <span>POSICIONES</span></div>
+        <div class="title-wrap">
+          <svg class="title-trophy" viewBox="0 0 96 96" aria-hidden="true">
+  <defs>
+    <linearGradient id="goldCup" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff0a3"/>
+      <stop offset=".35" stop-color="#ffc62f"/>
+      <stop offset=".72" stop-color="#f39a08"/>
+      <stop offset="1" stop-color="#b96700"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#goldCup)" d="M29 13h38v10h13v11c0 15-9 24-23 27-2 7-6 12-11 15v7h17v8H33v-8h17v-7c-5-3-9-8-11-15C25 58 16 49 16 34V23h13V13zm0 18h-6v3c0 9 4 15 13 18-4-7-6-14-7-21zm38 0c-1 7-3 14-7 21 9-3 13-9 13-18v-3h-6z"/>
+  <path fill="#fff4ba" opacity=".7" d="M38 21h10v34c0 7 3 12 8 17-12-5-18-16-18-34V21z"/>
+  <path fill="#fff" opacity=".82" d="m48 27 3.7 7.5 8.3 1.2-6 5.8 1.4 8.2-7.4-3.9-7.4 3.9 1.4-8.2-6-5.8 8.3-1.2z"/>
+</svg>
+          <div class="title">TABLA DE <span>POSICIONES</span></div>
+        </div>
         <div class="live"><span class="dot"></span><span id="status">RANKING EN VIVO</span></div>
       </div>
 
@@ -427,9 +606,32 @@ body{background:linear-gradient(90deg,#fff 0 36%,var(--navy-dark) 36% 100%);colo
       <div class="rows" id="rows"><div class="empty">Conectando con el ranking…</div></div>
 
       <div class="stats">
-        <div class="stat"><b id="games">—</b><span>Partidas jugadas</span></div>
-        <div class="stat record"><b id="record">—</b><span>Récord actual</span><span class="recordAlias" id="recordAlias">—</span></div>
-        <div class="stat"><b id="players">—</b><span>Participantes</span></div>
+        <div class="stat">
+          <div class="stat-icon gamepad"><svg viewBox="0 0 96 96" aria-hidden="true">
+  <path fill="#3aa7ff" d="M28 28h40c11 0 18 8 21 20l5 21c2 9-3 17-11 17-6 0-10-4-15-13l-5-8H33l-5 8c-5 9-9 13-15 13-8 0-13-8-11-17l5-21c3-12 10-20 21-20z"/>
+  <path fill="#092943" d="M29 39h8v8h8v8h-8v8h-8v-8h-8v-8h8z"/>
+  <circle cx="68" cy="44" r="5" fill="#092943"/><circle cx="79" cy="54" r="5" fill="#092943"/>
+  <path d="M40 28c3-8 13-10 18-4" fill="none" stroke="#8bd4ff" stroke-width="5" stroke-linecap="round"/>
+</svg></div>
+          <div class="stat-copy"><b id="games">—</b><span>Partidas<br>jugadas</span></div>
+        </div>
+        <div class="stat record">
+          <div class="stat-icon star"><svg viewBox="0 0 96 96" aria-hidden="true">
+  <defs><linearGradient id="goldStar" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff2a0"/><stop offset=".42" stop-color="#ffc62f"/><stop offset="1" stop-color="#e78a00"/></linearGradient></defs>
+  <path fill="url(#goldStar)" d="m48 8 12 25 28 4-20 19 5 28-25-13-25 13 5-28L8 37l28-4z"/>
+</svg></div>
+          <div class="stat-copy"><b id="record">—</b><span>Récord actual</span><span class="recordAlias" id="recordAlias">—</span></div>
+        </div>
+        <div class="stat">
+          <div class="stat-icon users"><svg viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="30" r="15" fill="#f4f7fa"/>
+  <circle cx="22" cy="37" r="11" fill="#4ca7ff"/>
+  <circle cx="74" cy="37" r="11" fill="#4ca7ff"/>
+  <path fill="#f4f7fa" d="M23 83V70c0-13 10-22 25-22s25 9 25 22v13z"/>
+  <path fill="#4ca7ff" d="M2 80V68c0-11 8-18 20-18 6 0 10 2 14 5-6 6-9 13-9 23v5H2zm92 0V68c0-11-8-18-20-18-6 0-10 2-14 5 6 6 9 13 9 23v5h25z"/>
+</svg></div>
+          <div class="stat-copy"><b id="players">—</b><span>Participantes</span></div>
+        </div>
       </div>
 
       <div class="recordflash" id="recordFlash"><div>🏆 NUEVO <span>RÉCORD</span></div></div>
