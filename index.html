@@ -4,8 +4,415 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#123e67">
-<title>Risk Defender</title>
-<style>html,body{margin:0;padding:0;background:#fff}body{padding:10px;max-width:980px;margin:0 auto}</style>
+<title>Risk Defender · LAFT América</title>
+<style>html,body{margin:0;padding:0;background:#fff}body{padding:10px;max-width:980px;margin:0 auto}
+/* ============================================================
+   v13 · AJUSTE RESPONSIVO PARA CELULAR EN HORIZONTAL
+   Mantiene la experiencia de escritorio sin cambios.
+   ============================================================ */
+@media (max-width: 900px) and (orientation: landscape) {
+  html, body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  body {
+    max-width: none;
+    padding:
+      max(3px, env(safe-area-inset-top))
+      max(5px, env(safe-area-inset-right))
+      max(3px, env(safe-area-inset-bottom))
+      max(5px, env(safe-area-inset-left));
+  }
+
+  #rd3 {
+    width: 100%;
+    max-width: none;
+  }
+
+  #rd3 .hud {
+    min-height: 34px;
+    margin: 0 0 3px;
+    gap: 4px;
+  }
+
+  #rd3 .hud > div:first-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    align-items: center;
+  }
+
+  #rd3 .pill {
+    padding: 3px 6px;
+    font-size: 7.5px;
+  }
+
+  #rd3 .time {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  #rd3 .soundbtn {
+    min-height: 28px;
+    width: 30px;
+    font-size: 13px;
+  }
+
+  #rd3 .game {
+    height: 252px;
+    border-radius: 10px;
+  }
+
+  /* En la pantalla inicial usamos casi todo el alto disponible.
+     Los controles inferiores todavía no son necesarios. */
+  #rd3:has(#startOv:not(.hidden)) .game {
+    height: calc(100dvh - 43px);
+    min-height: 250px;
+    max-height: 330px;
+  }
+
+  #rd3:has(#startOv:not(.hidden)) > .bars,
+  #rd3:has(#startOv:not(.hidden)) > .powers,
+  #rd3:has(#startOv:not(.hidden)) > .movebar,
+  #rd3:has(#startOv:not(.hidden)) > .queue {
+    display: none !important;
+  }
+
+  #rd3 .overlay {
+    padding: 5px 8px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  #rd3 #startOv .card {
+    width: min(100%, 760px);
+    max-width: 760px;
+    margin: auto;
+  }
+
+  #rd3 #startOv .kinglogo {
+    width: 27px;
+    height: 38px;
+  }
+
+  #rd3 #startOv h2 {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1;
+  }
+
+  #rd3 #startOv h2 + .tag {
+    margin: 1px 0 !important;
+    font-size: 7px;
+  }
+
+  #rd3 #startOv h3[style] {
+    margin: 1px 0 2px !important;
+    font-size: 9px;
+  }
+
+  #rd3 #startOv > .card > .tag:last-of-type,
+  #rd3 #startOv .card > h3 + .tag {
+    margin: 1px auto 3px;
+    max-width: 720px;
+    font-size: 7.3px;
+    line-height: 1.15;
+  }
+
+  #rd3 #startOv .inst {
+    grid-template-columns: 1.15fr .85fr;
+    gap: 4px;
+    margin: 3px 0;
+  }
+
+  #rd3 #startOv .panel {
+    padding: 4px 5px;
+    border-radius: 6px;
+  }
+
+  #rd3 #startOv .panel h3 {
+    margin: 0 0 3px;
+    font-size: 8px;
+  }
+
+  #rd3 #startOv .line {
+    margin: 1.5px 0;
+    font-size: 6.7px;
+    line-height: 1.15;
+  }
+
+  #rd3 #startOv .scoreg {
+    gap: 2px;
+    font-size: 6.6px;
+  }
+
+  #rd3 #startOv .scoreg div {
+    padding: 2px 3px;
+  }
+
+  #rd3 #startOv .pm {
+    gap: 2px;
+    margin-top: 2px;
+  }
+
+  #rd3 #startOv .pm div {
+    padding: 3px 2px;
+    font-size: 6px;
+    line-height: 1.05;
+  }
+
+  #rd3 #startOv .alias-box {
+    max-width: 310px;
+    margin: 3px auto;
+    padding: 4px 6px;
+    border-radius: 6px;
+  }
+
+  #rd3 #startOv .alias-box label {
+    margin-bottom: 2px;
+    font-size: 6.8px;
+  }
+
+  #rd3 #startOv .alias-input {
+    min-height: 30px;
+    padding: 3px 7px;
+    border-width: 1px;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+
+  #rd3 #startOv .alias-help {
+    min-height: 8px;
+    margin-top: 1px;
+    font-size: 5.8px;
+  }
+
+  #rd3 #startOv .start {
+    min-width: 145px;
+    min-height: 31px;
+    padding: 4px 14px;
+    font-size: 10px;
+    border-radius: 7px;
+  }
+
+  /* Durante la partida: tablero y botones táctiles dentro del viewport. */
+  #rd3 .movebar {
+    grid-template-columns: 1fr 1.25fr 1fr;
+    gap: 5px;
+    margin-top: 4px;
+  }
+
+  #rd3 .movebar button {
+    min-height: 44px;
+  }
+
+  #rd3 .move {
+    font-size: 24px;
+  }
+
+  #rd3 .center {
+    padding: 3px;
+    font-size: 8px;
+  }
+
+  #rd3 .fire {
+    font-size: 14px;
+  }
+
+  #rd3 .powers {
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  #rd3 .power {
+    min-height: 38px;
+    padding: 3px 3px 8px;
+    font-size: 7px;
+    line-height: 8px;
+  }
+
+  #rd3 .power strong {
+    font-size: 11px;
+  }
+
+  #rd3 .bars {
+    margin-top: 3px;
+  }
+
+  #rd3 .barrow {
+    gap: 5px;
+    margin-top: 3px;
+  }
+
+  #rd3 .lbl {
+    width: 52px;
+    font-size: 7px;
+  }
+
+  #rd3 .bar {
+    height: 8px;
+  }
+
+  #rd3 .queue {
+    margin-top: 3px;
+    padding: 4px;
+    font-size: 7px;
+  }
+
+  #rd3 .queue-head {
+    margin-bottom: 2px;
+    font-size: 7px;
+  }
+
+  #rd3 .ammo-count {
+    padding: 2px 5px;
+    font-size: 8px;
+  }
+
+  #rd3 .next-ammo {
+    font-size: 7px;
+  }
+
+  #rd3 .q {
+    margin: 1px 2px 1px 0;
+    padding: 2px 3px;
+    font-size: 6.5px;
+  }
+
+  /* Resultado: ocupa el tablero completo y puede desplazarse si
+     un navegador reduce demasiado el alto útil por sus barras. */
+  #rd3 #resultOv {
+    align-items: flex-start;
+    padding-top: 5px;
+  }
+
+  #rd3 #resultOv .card {
+    width: min(100%, 720px);
+    max-width: 720px;
+    margin: auto;
+  }
+
+  #rd3 #resultOv .final-logo {
+    width: min(150px, 34%);
+    max-height: 34px;
+    object-fit: contain;
+  }
+
+  #rd3 #resultOv h2 {
+    margin: 1px 0;
+    font-size: 13px;
+  }
+
+  #rd3 #finalScore {
+    font-size: 20px !important;
+  }
+
+  #rd3 #resultOv .rankline {
+    gap: 3px;
+    margin: 3px 0;
+    font-size: 7px;
+  }
+
+  #rd3 #resultOv .rankchip {
+    padding: 3px 5px;
+  }
+
+  #rd3 #resultOv .stats {
+    gap: 3px;
+    margin: 3px 0;
+  }
+
+  #rd3 #resultOv .stat {
+    padding: 3px;
+  }
+
+  #rd3 #resultOv .stat b {
+    font-size: 11px;
+  }
+
+  #rd3 #resultOv .stat span {
+    font-size: 5.7px;
+  }
+
+  #rd3 #resultOv .diag {
+    margin: 3px 0;
+    padding: 4px 6px;
+    font-size: 7px;
+  }
+
+  #rd3 #resultOv .tag,
+  #rd3 #resultOv .experience {
+    margin: 2px 0;
+    font-size: 6.5px;
+    line-height: 1.15;
+  }
+
+  #rd3 #resultOv .leaderboard {
+    margin: 3px auto;
+    padding: 4px;
+  }
+
+  #rd3 #resultOv .leaderboard h3 {
+    margin-bottom: 2px;
+    font-size: 7px;
+  }
+
+  #rd3 #resultOv .lbrow {
+    grid-template-columns: 20px 1fr auto;
+    gap: 4px;
+    padding: 2px 3px;
+    font-size: 6.5px;
+  }
+
+  #rd3 #resultOv .local-note {
+    margin-top: 2px;
+    font-size: 5.5px;
+  }
+
+  #rd3 #resultOv .start {
+    min-height: 30px;
+    padding: 4px 14px;
+    font-size: 9px;
+  }
+}
+
+/* Teléfonos con muy poco alto útil en horizontal. */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 390px) {
+  #rd3:has(#startOv:not(.hidden)) .game {
+    height: calc(100dvh - 38px);
+    min-height: 235px;
+  }
+
+  #rd3 #startOv .kinglogo {
+    display: none;
+  }
+
+  #rd3 #startOv h2 {
+    font-size: 13px;
+  }
+
+  #rd3 #startOv h3[style] {
+    display: none;
+  }
+
+  #rd3 #startOv .card > h3 + .tag {
+    font-size: 6.5px;
+  }
+
+  #rd3 #startOv .line {
+    font-size: 6.2px;
+  }
+
+  #rd3 #startOv .alias-box {
+    margin: 2px auto;
+  }
+}
+
+</style>
 </head>
 <body>
 <div id="rd3" tabindex="0">
