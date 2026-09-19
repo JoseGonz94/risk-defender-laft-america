@@ -918,6 +918,170 @@
   }
 }
 
+
+/* ============================================================
+   v17 · AJUSTES DE FONDO, CONTROLES Y RESULTADO FINAL
+   ============================================================ */
+
+/* Fondo: mostrar la imagen completa, sin zoom agresivo */
+#rd3 .game{
+  background:#b9c5cd;
+}
+#rd3 .building{
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center bottom !important;
+  background-color: #b9c5cd !important;
+}
+
+/* Jugador: quitar la línea blanca inferior y mantenerlo más limpio */
+#rd3 .player img{
+  clip-path: inset(0 0 8px 0) !important;
+  margin-bottom: -4px !important;
+}
+#rd3 .player .name{
+  margin-top: -2px;
+}
+
+/* Powerups al costado derecho */
+#rd3 #powers{
+  right: 8px;
+  top: 10px;
+  width: 64px;
+  z-index: 60;
+}
+
+/* Indicador de munición integrado dentro del tablero, arriba izquierda */
+#rd3 #queue{
+  left: 8px !important;
+  top: 86px !important;
+  bottom: auto !important;
+  transform: none !important;
+  width: 138px !important;
+  padding: 5px 7px !important;
+  font-size: 8px;
+  border: 1px solid rgba(17,48,79,.28);
+  border-radius: 12px;
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 2px 10px rgba(3,20,34,.12);
+  z-index: 60;
+}
+#rd3 #queue .queue-head{
+  display: block;
+  margin-bottom: 2px;
+  font-size: 8px;
+}
+#rd3 #queue .next-ammo{
+  display: block;
+  margin-top: 2px;
+  font-size: 7px;
+}
+#rd3 #qi{
+  display: none;
+}
+
+/* Botones integrados */
+#rd3 #movebar{
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  height: 72px;
+  z-index: 65;
+}
+#rd3 #movebar button{
+  width: 62px;
+  height: 62px;
+  min-height: 62px;
+}
+#rd3 #left{ left: 12px; }
+#rd3 #right{ right: 12px; }
+#rd3 #fire{
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* En jefe: disparo a la izquierda, desplazamiento a la derecha */
+#rd3.boss-ui #fire{
+  left: 12px !important;
+  transform: none !important;
+}
+#rd3.boss-ui #left{
+  left: auto !important;
+  right: 82px !important;
+}
+#rd3.boss-ui #right{
+  right: 12px !important;
+}
+
+/* Mejoras del botón de pantalla completa */
+#rd3 .fsbtn{
+  min-width: 78px;
+  padding: 0 8px;
+}
+#rd3.manual-fs{
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  width: 100dvw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  z-index: 9999 !important;
+  background: #fff !important;
+  margin: 0 !important;
+  max-width: none !important;
+}
+
+/* Al finalizar, ocultar controles de juego */
+#rd3.results-mode #movebar,
+#rd3.results-mode #powers,
+#rd3.results-mode #bars,
+#rd3.results-mode #queue{
+  display: none !important;
+}
+
+/* Afinación para celular horizontal */
+@media (max-width: 900px) and (orientation: landscape){
+  #rd3 .hud .pill{
+    font-size: 7.5px;
+  }
+  #rd3 .fsbtn{
+    min-width: 72px;
+    font-size: 8px;
+  }
+  #rd3 #powers{
+    width: 58px;
+    right: 8px;
+    top: 8px;
+  }
+  #rd3 #queue{
+    width: 120px !important;
+    top: 74px !important;
+    left: 8px !important;
+    padding: 4px 6px !important;
+  }
+  #rd3 #queue .queue-head{
+    font-size: 7px;
+  }
+  #rd3 #queue .next-ammo{
+    font-size: 6.5px;
+  }
+  #rd3 #movebar{
+    height: 60px;
+    bottom: 8px;
+  }
+  #rd3 #movebar button{
+    width: 56px;
+    height: 56px;
+    min-height: 56px;
+  }
+  #rd3 #left, #rd3 #right{
+    font-size: 32px;
+  }
+  #rd3 #fire{
+    font-size: 23px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1228,11 +1392,21 @@ function toggleFullscreen(){
     if(document.fullscreenElement || document.webkitFullscreenElement){
       if(document.exitFullscreen) document.exitFullscreen().catch(()=>{});
       else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+      el.classList.remove('manual-fs');
       return;
     }
-    if(el.requestFullscreen) el.requestFullscreen({navigationUI:'hide'}).catch(()=>{});
-    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-  }catch(e){}
+    if(el.requestFullscreen){
+      el.requestFullscreen({navigationUI:'hide'}).catch(()=>{
+        el.classList.toggle('manual-fs');
+      });
+    }else if(el.webkitRequestFullscreen){
+      try{el.webkitRequestFullscreen()}catch(e){el.classList.toggle('manual-fs')}
+    }else{
+      el.classList.toggle('manual-fs');
+    }
+  }catch(e){
+    el.classList.toggle('manual-fs');
+  }
 }
 document.addEventListener('gesturestart',e=>{ if(r.contains(e.target)) e.preventDefault(); },{passive:false});
 let lastTouchEnd=0;
@@ -1418,7 +1592,7 @@ document.addEventListener('fullscreenchange',fitViewport);
 document.addEventListener('webkitfullscreenchange',fitViewport);
 fitViewport();
 
-function start(){const alias=cleanAlias($('aliasInput').value);if(!aliasValid(alias)){toast('ESCRIBE UN ALIAS DE 2 A 12 CARACTERES',900);$('aliasInput').focus();return}cancelAnimationFrame(raf);clearTimers();initAudio();if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();spawnBag=[];s=fresh(alias);$('hudAlias').textContent=alias;$('hudAlias').classList.remove('hidden');O.innerHTML='';F.innerHTML='';$('startOv').classList.add('hidden');$('resultOv').classList.add('hidden');$('boss').style.display='none';$('boss').classList.remove('laft','cst','hit','mitigating');clearPowerFx();setProg('preventive',0);setProg('detective',0);setProg('corrective',0);$('bars').style.display='none';$('fire').style.display='none';$('center').style.display='grid';$('queue').style.display='none';$('phase').textContent='PREPÁRATE';$('timer').textContent='01:00';s.run=false;s.phase='countdown';score();player();bars();queue();controls();r.focus();cinema('3','Ubica tus controles');sfx('count');schedule(()=>{cinema('2','Muévete con ← →');sfx('count')},650);schedule(()=>{cinema('1','¡Detecta lo que sí importa!');sfx('count')},1300);schedule(()=>{cinema('¡DEFIENDE TU EMPRESA!','40 segundos para recolectar');sfx('go')},1950);schedule(()=>{cinemaOff();launch()},2450)}
+function start(){const alias=cleanAlias($('aliasInput').value);if(!aliasValid(alias)){toast('ESCRIBE UN ALIAS DE 2 A 12 CARACTERES',900);$('aliasInput').focus();return}cancelAnimationFrame(raf);clearTimers();initAudio();if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();spawnBag=[];s=fresh(alias);r.classList.remove('boss-ui','results-mode');$('hudAlias').textContent=alias;$('hudAlias').classList.remove('hidden');O.innerHTML='';F.innerHTML='';$('startOv').classList.add('hidden');$('resultOv').classList.add('hidden');$('boss').style.display='none';$('boss').classList.remove('laft','cst','hit','mitigating');clearPowerFx();setProg('preventive',0);setProg('detective',0);setProg('corrective',0);$('movebar').style.display='block';$('powers').style.display='grid';$('bars').style.display='none';$('fire').style.display='none';$('center').style.display='grid';$('queue').style.display='none';$('phase').textContent='PREPÁRATE';$('timer').textContent='01:00';s.run=false;s.phase='countdown';score();player();bars();queue();controls();r.focus();cinema('3','Ubica tus controles');sfx('count');schedule(()=>{cinema('2','Muévete con ← →');sfx('count')},650);schedule(()=>{cinema('1','¡Detecta lo que sí importa!');sfx('count')},1300);schedule(()=>{cinema('¡DEFIENDE TU EMPRESA!','40 segundos para recolectar');sfx('go')},1950);schedule(()=>{cinemaOff();launch()},2450)}
 function launch(){s.run=true;s.phase='collect';s.t=40;$('phase').textContent='RECOLECCIÓN';last=performance.now();wait=.65;atk=0;raf=requestAnimationFrame(loop)}
 function lane(){const v=[0,1,2,3,4].filter(i=>s.clock-s.lastLane[i]>.9);return rnd(v.length?v:[0,1,2,3,4])}
 function drop(item,type){const ln=lane();s.lastLane[ln]=s.clock;const e=document.createElement('div');e.className='drop'+(type==='cash'?' cash':'');e.style.left=L[ln]+'%';e.style.top='-72px';e.innerHTML=`<div class="i">${item.icon}</div><div class="l">${item.label}</div>`;O.appendChild(e);s.drops.push({e,item,type,ln,y:-16})}
@@ -1449,7 +1623,7 @@ function next(){const e=40-s.t;return e<14?.9+Math.random()*.4:e<28?.76+Math.ran
 function collect(d){if(d.type==='cash'){s.score+=10;s.stats.b++;pickup('💵 +10 PTS','cashmsg');sfx('cash')}else if(d.type==='alert'){s.score+=50;s.stats.a++;s.ammo.push({...d.item,kind:'alert'});pickup('🚩 '+d.item.label+' · +50','alertmsg');sfx('alert')}else if(d.type==='control'){s.score+=70;s.stats.c++;s.ctrl[d.item.control]++;pickup('🛡️ '+d.item.label+' · +70','controlmsg');sfx('control')}else{s.stats.f++;s.ammo.push({...d.item,kind:'normal'});pickup('⚠️ FALSO POSITIVO · 0','falsemsg');sfx('false')}score();queue();controls()}
 function drops(dt){const e=40-s.t,spd=e<14?14.5:e<28?16.5:18.2;for(let i=s.drops.length-1;i>=0;i--){const d=s.drops[i];d.y+=spd*dt;d.e.style.top=d.y+'%';if(d.y>=74){if(d.ln===s.lane)collect(d);d.e.remove();s.drops.splice(i,1)}}}
 function bossTransition(){if(s.phase!=='collect')return;s.phase='transition';s.drops.forEach(d=>d.e.remove());s.drops=[];$('phase').textContent='ALERTA';cinema('⚠ RIESGO DETECTADO','Prepárate para defender Mi Empresa SAS');sfx('boss');schedule(()=>{cinemaOff();boss()},1150)}
-function boss(){s.phase='boss';s.t=20;$('phase').textContent='JEFE FINAL';$('boss').style.display='block';$('boss').classList.remove('laft','cst','mitigating');$('boss').classList.add(s.btype==='LAFT'?'laft':'cst');$('bars').style.display='block';$('center').style.display='none';$('fire').style.display='block';$('queue').style.display='block';$('bossTitle').textContent=s.btype==='LAFT'?'EL LAVADOR':'EL CORRUPTO';$('bossProp').textContent=s.btype==='LAFT'?'💰':'🎁';toast(s.btype==='LAFT'?'💸 ¡EL LAVADOR ATACA!':'💼 ¡EL CORRUPTO ATACA!',800);bars();queue();controls()}
+function boss(){s.phase='boss';s.t=20;r.classList.add('boss-ui');$('phase').textContent='JEFE FINAL';$('boss').style.display='block';$('boss').classList.remove('laft','cst','mitigating');$('boss').classList.add(s.btype==='LAFT'?'laft':'cst');$('bars').style.display='block';$('center').style.display='none';$('fire').style.display='block';$('queue').style.display='block';$('bossTitle').textContent=s.btype==='LAFT'?'EL LAVADOR':'EL CORRUPTO';$('bossProp').textContent=s.btype==='LAFT'?'💰':'🎁';toast(s.btype==='LAFT'?'💸 ¡EL LAVADOR ATACA!':'💼 ¡EL CORRUPTO ATACA!',800);bars();queue();controls()}
 function enemy(){const ln=s.lane,e=document.createElement('div');e.className='shot';const la=['💸','💵','🧾'],cs=['✉️','💼','🎁'];e.textContent=rnd(s.btype==='LAFT'?la:cs);F.appendChild(e);s.enemy.push({e,ln,t:0,d:.9,m:null})}
 function enemies(dt){for(let i=s.enemy.length-1;i>=0;i--){const z=s.enemy[i];z.t+=dt/z.d;const t=cl(z.t,0,1),x=50+(L[z.ln]-50)*t,y=31+47*t-96*t*(1-t);z.e.style.left=x+'%';z.e.style.top=y+'%';if(t>.5&&!z.m){const m=document.createElement('div');m.className='target';m.style.left=L[z.ln]+'%';F.appendChild(m);z.m=m}if(t>=1){if(z.ln===s.lane){if(s.active==='preventive')toast('🛡️ ¡BLOQUEADO!');else{s.p-=25;toast('GOLPE · -25 VIDA');sfx('hurt');bars()}}z.e.remove();if(z.m)z.m.remove();s.enemy.splice(i,1);if(s.p<=0){finish('dead');return}}}}
 function fire(){if(!s.run||s.phase!=='boss'||!s.ammo.length)return;const a=s.ammo.shift();queue();controls();sfx('fire');const e=document.createElement('div');e.className='shot'+(s.active==='detective'?' boostshot':'');e.textContent=a.icon;F.appendChild(e);s.shots.push({e,a,t:0,d:.32,start:L[s.lane]})}
@@ -1457,7 +1631,7 @@ function shots(dt){for(let i=s.shots.length-1;i>=0;i--){const z=s.shots[i];z.t+=
 function power(type){if(s.phase!=='boss'||s.active||!s.ctrl[type])return;s.ctrl[type]--;s.stats.u++;s.active=type;s.until=performance.now()+2000;setProg(type,100);clearPowerFx();const btn=type==='preventive'?'shieldBtn':type==='detective'?'boostBtn':'mitBtn';$(btn).classList.add('active-power');sfx('power');if(type==='corrective'){s.corr=15;$('boss').classList.add('mitigating');toast('🔧 MITIGACIÓN · 2 s')}if(type==='preventive'){$('shield').style.display='block';toast('🛡️ ESCUDO · 2 s')}if(type==='detective'){$('player').classList.add('boosted');toast('🔎 POTENCIA · 2 s')}controls()}
 function active(dt,now){if(s.active){setProg(s.active,((s.until-now)/2000)*100)}if(s.active==='corrective'&&s.corr>0){const d=Math.min(s.corr,7.5*dt);s.corr-=d;s.b-=d;bars();if(s.b<=0){s.b=0;bars();win();return}}if(s.active&&now>=s.until){const ended=s.active;if(ended==='preventive')$('shield').style.display='none';setProg(ended,0);s.active=null;s.corr=0;clearPowerFx();controls()}}
 function win(){if(!s.run)return;s.score+=500;score();finish('win')}
-function finish(reason){if(!s.run)return;s.run=false;cancelAnimationFrame(raf);clearTimers();cinemaOff();s.enemy.forEach(z=>{z.e.remove();if(z.m)z.m.remove()});s.shots.forEach(z=>z.e.remove());$('shield').style.display='none';clearPowerFx();setProg('preventive',0);setProg('detective',0);setProg('corrective',0);$('ra').textContent=s.stats.a;$('rc').textContent=s.stats.c;$('rf').textContent=s.stats.f;$('rb').textContent=s.stats.b;$('rh').textContent=s.stats.h;const mit=Math.round(cl(100-s.b,0,100));$('rm').textContent=mit+'%';$('finalScore').textContent=s.score+' PTS';rankInfo(s.alias,s.score);$('resultTitle').textContent=reason==='win'?'🏆 ¡RIESGO MITIGADO!':reason==='dead'?'⚠️ RIESGO MATERIALIZADO':'⏱️ MITIGACIÓN INCOMPLETA';let diag='Buen radar de riesgo: identificaste señales y llegaste con herramientas para responder.';if(s.stats.f>=4)diag='⚠️ Cuidado con los falsos positivos: recogiste situaciones normales que consumieron munición y tiempo.';else if(s.stats.a<5)diag='🔎 Refuerza tu radar: detectar más señales te habría dado mayor capacidad de respuesta.';else if(s.stats.c<2)diag='🛡️ Buena detección, pero llegaste con pocos controles para administrar el riesgo.';else if(reason==='win'&&s.stats.f<=1&&s.stats.u>=2)diag='👑 Excelente radar y administración de controles: detectaste, priorizaste y actuaste en el momento adecuado.';$('resultDiag').textContent=diag;if(reason==='win')sfx('win');else sfx('lose');$('resultOv').classList.remove('hidden')}
+function finish(reason){if(!s.run)return;s.run=false;cancelAnimationFrame(raf);clearTimers();cinemaOff();r.classList.remove('boss-ui');r.classList.add('results-mode');s.enemy.forEach(z=>{z.e.remove();if(z.m)z.m.remove()});s.shots.forEach(z=>z.e.remove());$('shield').style.display='none';clearPowerFx();setProg('preventive',0);setProg('detective',0);setProg('corrective',0);$('movebar').style.display='none';$('powers').style.display='none';$('bars').style.display='none';$('queue').style.display='none';$('ra').textContent=s.stats.a;$('rc').textContent=s.stats.c;$('rf').textContent=s.stats.f;$('rb').textContent=s.stats.b;$('rh').textContent=s.stats.h;const mit=Math.round(cl(100-s.b,0,100));$('rm').textContent=mit+'%';$('finalScore').textContent=s.score+' PTS';rankInfo(s.alias,s.score);$('resultTitle').textContent=reason==='win'?'🏆 ¡RIESGO MITIGADO!':reason==='dead'?'⚠️ RIESGO MATERIALIZADO':'⏱️ MITIGACIÓN INCOMPLETA';let diag='Buen radar de riesgo: identificaste señales y llegaste con herramientas para responder.';if(s.stats.f>=4)diag='⚠️ Cuidado con los falsos positivos: recogiste situaciones normales que consumieron munición y tiempo.';else if(s.stats.a<5)diag='🔎 Refuerza tu radar: detectar más señales te habría dado mayor capacidad de respuesta.';else if(s.stats.c<2)diag='🛡️ Buena detección, pero llegaste con pocos controles para administrar el riesgo.';else if(reason==='win'&&s.stats.f<=1&&s.stats.u>=2)diag='👑 Excelente radar y administración de controles: detectaste, priorizaste y actuaste en el momento adecuado.';$('resultDiag').textContent=diag;if(reason==='win')sfx('win');else sfx('lose');$('resultOv').classList.remove('hidden')}
 function move(d){if(s?.run){s.lane=cl(s.lane+d,0,4);player()}}
 function loop(now){if(!s.run)return;const dt=Math.min((now-last)/1000,.05);last=now;s.clock+=dt;if(s.phase==='collect'){s.t-=dt;const sec=Math.ceil(20+Math.max(0,s.t));$('timer').textContent=sec>=60?'01:00':'00:'+String(sec).padStart(2,'0');wait-=dt;if(wait<=0){spawn();wait=next()}drops(dt);if(s.t<=0)bossTransition()}else if(s.phase==='transition'){$('timer').textContent='00:20'}else if(s.phase==='boss'){s.t-=dt;$('timer').textContent='00:'+String(Math.max(0,Math.ceil(s.t))).padStart(2,'0');atk+=dt;if(atk>=1){atk-=1;enemy()}enemies(dt);shots(dt);active(dt,now);if(!s.run)return;if(s.t<=0)finish('time')}raf=requestAnimationFrame(loop)}
 $('aliasInput').addEventListener('input',()=>{const v=cleanAlias($('aliasInput').value);if($('aliasInput').value!==v)$('aliasInput').value=v;const ok=aliasValid(v);$('start').disabled=!ok;$('aliasHelp').textContent=ok?'✓ Alias listo para competir.':'2–12 caracteres. Letras, números, espacios, - o _.'});
