@@ -554,6 +554,89 @@ body{background:linear-gradient(90deg,#fff 0 36%,var(--navy-dark) 36% 100%);colo
     linear-gradient(180deg,rgba(5,26,43,.985),rgba(3,17,29,.99)) !important;
 }
 
+
+/* ============================================================
+   v6 · DISTRIBUCIÓN VERTICAL DEL BLOQUE IZQUIERDO
+   ============================================================ */
+
+/* Los siete bloques ocupan ahora toda la altura útil de forma equilibrada */
+.left{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  grid-template-rows:auto auto auto auto auto auto auto !important;
+  align-content:space-between !important;
+  justify-items:center !important;
+  padding:2.3vh 2.35vw 2.4vh !important;
+}
+
+/* Eliminamos márgenes acumulados: el espacio lo gobierna el grid */
+.brand{
+  width:94% !important;
+  height:12.4vh !important;
+  margin:0 !important;
+  align-self:start !important;
+}
+.logo-risk,.logo-laft{
+  height:9.7vh !important;
+}
+.logo-risk img,.logo-laft img{
+  max-height:8.8vh !important;
+}
+
+.challenge{
+  width:94% !important;
+  margin:0 !important;
+  align-self:center !important;
+}
+.sub{
+  width:94% !important;
+  margin:0 !important;
+  align-self:center !important;
+}
+
+/* QR ligeramente mayor y centrado para darle más peso al llamado a jugar */
+.qrbox{
+  width:min(64%,350px) !important;
+  margin:0 !important;
+  align-self:center !important;
+}
+.scan{
+  width:min(64%,350px) !important;
+  margin:0 !important;
+  align-self:center !important;
+}
+
+.steps{
+  width:94% !important;
+  margin:0 !important;
+  align-self:center !important;
+}
+
+.footerline{
+  width:94% !important;
+  margin:0 !important;
+  padding:1.15vh .8vw !important;
+  align-self:end !important;
+}
+
+/* En pantallas 16:9 grandes, damos un poco más de presencia al QR */
+@media (min-width:1400px) and (min-aspect-ratio:16/10){
+  .qrbox{width:min(66%,365px) !important}
+  .scan{width:min(66%,365px) !important}
+  .brand{height:12.8vh !important}
+}
+
+/* Si la pantalla es menos alta, conserva todo visible sin comprimir el ranking */
+@media (max-height:800px){
+  .left{padding-top:1.5vh !important;padding-bottom:1.5vh !important}
+  .brand{height:10.8vh !important}
+  .logo-risk,.logo-laft{height:8.6vh !important}
+  .logo-risk img,.logo-laft img{max-height:7.8vh !important}
+  .qrbox{width:min(58%,300px) !important}
+  .scan{width:min(58%,300px) !important}
+  .footerline{padding:.75vh .7vw !important}
+}
+
 </style>
 </head>
 <body>
