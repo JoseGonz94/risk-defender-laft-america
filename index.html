@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#123e67">
-<title>Risk Defender · LAFT América</title>
+<title>Risk Defender · LAFT América · v24</title>
 <style>html,body{margin:0;padding:0;background:#fff}body{padding:10px;max-width:980px;margin:0 auto}
 /* ============================================================
    v13 · AJUSTE RESPONSIVO PARA CELULAR EN HORIZONTAL
@@ -1206,7 +1206,7 @@ body.rd-manual-fullscreen{
 
 </head>
 <body>
-<div id="rd3" tabindex="0">
+<div id="rd3" class="prestart" tabindex="0">
 <style>
 #rd3{--o:#ff7900;--b:#123e67;--d:#102638;--viz-text:#102638;--viz-card:#fff;--viz-border:#cbd5df;--viz-muted:#5f6f7d;--viz-panel:#f4f7f9;position:relative;font-family:ui-monospace,Consolas,monospace;color:var(--viz-text)}
 #rd3 *{box-sizing:border-box}
@@ -1607,6 +1607,135 @@ html, body{
   }
 }
 
+
+
+/* ============================================================
+   v24 · AJUSTES DE PRUEBAS EN DISPOSITIVOS
+   - UI de juego totalmente oculta antes de iniciar.
+   - Pantalla inicial compacta para que INICIAR MISIÓN sea visible.
+   ============================================================ */
+
+/* No depender de :has(): el estado prestart controla la visibilidad. */
+#rd3.prestart #bars,
+#rd3.prestart #powers,
+#rd3.prestart #movebar,
+#rd3.prestart #queue{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+/* En móvil horizontal, la tarjeta inicial siempre debe caber completa. */
+@media (max-width: 900px) and (orientation: landscape){
+  #rd3.prestart #startOv{
+    overflow:hidden !important;
+    padding:2px 6px !important;
+  }
+
+  #rd3.prestart #startOv .card{
+    max-height:100% !important;
+    margin:auto !important;
+  }
+}
+
+/* Safari/iPhone suele dejar menos alto útil por sus barras.
+   Compactamos un poco antes de llegar a los casos extremos. */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px){
+  #rd3.prestart #startOv .kinglogo{
+    width:22px !important;
+    height:31px !important;
+  }
+
+  #rd3.prestart #startOv h2{
+    font-size:13px !important;
+  }
+
+  #rd3.prestart #startOv h2 + .tag{
+    font-size:6.5px !important;
+  }
+
+  #rd3.prestart #startOv h3[style]{
+    margin:0 0 1px !important;
+    font-size:8px !important;
+  }
+
+  #rd3.prestart #startOv .card > h3 + .tag{
+    margin:0 auto 2px !important;
+    font-size:6.4px !important;
+    line-height:1.05 !important;
+  }
+
+  #rd3.prestart #startOv .inst{
+    gap:3px !important;
+    margin:2px 0 !important;
+  }
+
+  #rd3.prestart #startOv .panel{
+    padding:3px 4px !important;
+  }
+
+  #rd3.prestart #startOv .panel h3{
+    margin:0 0 2px !important;
+    font-size:7.2px !important;
+  }
+
+  #rd3.prestart #startOv .line{
+    margin:1px 0 !important;
+    font-size:5.9px !important;
+    line-height:1.05 !important;
+  }
+
+  #rd3.prestart #startOv .scoreg{
+    font-size:5.9px !important;
+  }
+
+  #rd3.prestart #startOv .scoreg div{
+    padding:1px 2px !important;
+  }
+
+  #rd3.prestart #startOv .pm{
+    margin-top:1px !important;
+  }
+
+  #rd3.prestart #startOv .pm div{
+    padding:2px 1px !important;
+    font-size:5.4px !important;
+  }
+
+  #rd3.prestart #startOv .alias-box{
+    margin:2px auto 1px !important;
+    padding:3px 5px !important;
+  }
+
+  #rd3.prestart #startOv .alias-box label{
+    margin-bottom:1px !important;
+    font-size:6.2px !important;
+  }
+
+  #rd3.prestart #startOv .alias-input{
+    min-height:27px !important;
+    padding:2px 6px !important;
+    font-size:11px !important;
+  }
+
+  #rd3.prestart #startOv .alias-help{
+    min-height:6px !important;
+    margin-top:0 !important;
+    font-size:5.2px !important;
+  }
+
+  #rd3.prestart #startOv .start{
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    min-width:145px !important;
+    min-height:29px !important;
+    margin-top:1px !important;
+    padding:3px 12px !important;
+    font-size:9px !important;
+  }
+}
+
 </style>
 
 <div class="hud">
@@ -1982,7 +2111,7 @@ function fitStartCard(){
   requestAnimationFrame(()=>{
     const available=Math.max(220, game.clientHeight-8);
     const needed=Math.max(1, card.scrollHeight);
-    const scale=Math.max(.70, Math.min(1, available/needed));
+    const scale=Math.max(.58, Math.min(1, available/needed));
     card.style.setProperty('--rd-start-scale', scale.toFixed(3));
   });
 }
@@ -2012,7 +2141,7 @@ syncFullscreenButton();
 fitViewport();
 setTimeout(fitStartCard,80);
 
-function start(){const alias=cleanAlias($('aliasInput').value);if(!aliasValid(alias)){toast('ESCRIBE UN ALIAS DE 2 A 12 CARACTERES',900);$('aliasInput').focus();return}cancelAnimationFrame(raf);clearTimers();initAudio();if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();spawnBag=[];s=fresh(alias);r.classList.remove('boss-ui','results-mode');$('hudAlias').textContent=alias;$('hudAlias').classList.remove('hidden');O.innerHTML='';F.innerHTML='';$('startOv').classList.add('hidden');$('resultOv').classList.add('hidden');$('boss').style.display='none';$('boss').classList.remove('laft','cst','hit','mitigating');clearPowerFx();setProg('preventive',0);setProg('detective',0);setProg('corrective',0);$('movebar').style.display='block';$('powers').style.display='grid';$('bars').style.display='none';$('fire').style.display='none';$('center').style.display='grid';$('queue').style.display='none';$('phase').textContent='PREPÁRATE';$('timer').textContent='01:00';s.run=false;s.phase='countdown';score();player();bars();queue();controls();r.focus();cinema('3','Ubica tus controles');sfx('count');schedule(()=>{cinema('2','Muévete con ← →');sfx('count')},650);schedule(()=>{cinema('1','¡Detecta lo que sí importa!');sfx('count')},1300);schedule(()=>{cinema('¡DEFIENDE TU EMPRESA!','40 segundos para recolectar');sfx('go')},1950);schedule(()=>{cinemaOff();launch()},2450)}
+function start(){const alias=cleanAlias($('aliasInput').value);if(!aliasValid(alias)){toast('ESCRIBE UN ALIAS DE 2 A 12 CARACTERES',900);$('aliasInput').focus();return}r.classList.remove('prestart');cancelAnimationFrame(raf);clearTimers();initAudio();if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();spawnBag=[];s=fresh(alias);r.classList.remove('boss-ui','results-mode');$('hudAlias').textContent=alias;$('hudAlias').classList.remove('hidden');O.innerHTML='';F.innerHTML='';$('startOv').classList.add('hidden');$('resultOv').classList.add('hidden');$('boss').style.display='none';$('boss').classList.remove('laft','cst','hit','mitigating');clearPowerFx();setProg('preventive',0);setProg('detective',0);setProg('corrective',0);$('movebar').style.display='block';$('powers').style.display='grid';$('bars').style.display='none';$('fire').style.display='none';$('center').style.display='grid';$('queue').style.display='none';$('phase').textContent='PREPÁRATE';$('timer').textContent='01:00';s.run=false;s.phase='countdown';score();player();bars();queue();controls();r.focus();cinema('3','Ubica tus controles');sfx('count');schedule(()=>{cinema('2','Muévete con ← →');sfx('count')},650);schedule(()=>{cinema('1','¡Detecta lo que sí importa!');sfx('count')},1300);schedule(()=>{cinema('¡DEFIENDE TU EMPRESA!','40 segundos para recolectar');sfx('go')},1950);schedule(()=>{cinemaOff();launch()},2450)}
 function launch(){s.run=true;s.phase='collect';s.t=40;$('phase').textContent='RECOLECCIÓN';last=performance.now();wait=.65;atk=0;raf=requestAnimationFrame(loop)}
 function lane(){const v=[0,1,2,3,4].filter(i=>s.clock-s.lastLane[i]>.9);return rnd(v.length?v:[0,1,2,3,4])}
 function drop(item,type){const ln=lane();s.lastLane[ln]=s.clock;const e=document.createElement('div');e.className='drop'+(type==='cash'?' cash':'');e.style.left=L[ln]+'%';e.style.top='-72px';e.innerHTML=`<div class="i">${item.icon}</div><div class="l">${item.label}</div>`;O.appendChild(e);s.drops.push({e,item,type,ln,y:-16})}
@@ -2041,7 +2170,7 @@ function spawn(){
 }
 function next(){const e=40-s.t;return e<14?.9+Math.random()*.4:e<28?.76+Math.random()*.36:.66+Math.random()*.3}
 function collect(d){if(d.type==='cash'){s.score+=10;s.stats.b++;pickup('💵 +10 PTS','cashmsg');sfx('cash')}else if(d.type==='alert'){s.score+=50;s.stats.a++;s.ammo.push({...d.item,kind:'alert'});pickup('🚩 '+d.item.label+' · +50','alertmsg');sfx('alert')}else if(d.type==='control'){s.score+=70;s.stats.c++;s.ctrl[d.item.control]++;pickup('🛡️ '+d.item.label+' · +70','controlmsg');sfx('control')}else{s.stats.f++;s.ammo.push({...d.item,kind:'normal'});pickup('⚠️ FALSO POSITIVO · 0','falsemsg');sfx('false')}score();queue();controls()}
-function drops(dt){const e=40-s.t,spd=e<14?14.5:e<28?16.5:18.2;for(let i=s.drops.length-1;i>=0;i--){const d=s.drops[i];d.y+=spd*dt;d.e.style.top=d.y+'%';if(d.y>=74){if(d.ln===s.lane)collect(d);d.e.remove();s.drops.splice(i,1)}}}
+function drops(dt){const e=40-s.t,spd=e<14?13.05:e<28?14.85:16.38;for(let i=s.drops.length-1;i>=0;i--){const d=s.drops[i];d.y+=spd*dt;d.e.style.top=d.y+'%';if(d.y>=74){if(d.ln===s.lane)collect(d);d.e.remove();s.drops.splice(i,1)}}}
 function bossTransition(){if(s.phase!=='collect')return;s.phase='transition';s.drops.forEach(d=>d.e.remove());s.drops=[];$('phase').textContent='ALERTA';cinema('⚠ RIESGO DETECTADO','Prepárate para defender Mi Empresa SAS');sfx('boss');schedule(()=>{cinemaOff();boss()},1150)}
 function boss(){s.phase='boss';s.t=20;r.classList.add('boss-ui');$('phase').textContent='JEFE FINAL';$('boss').style.display='block';$('boss').classList.remove('laft','cst','mitigating');$('boss').classList.add(s.btype==='LAFT'?'laft':'cst');$('bars').style.display='block';$('center').style.display='none';$('fire').style.display='block';$('queue').style.display='block';$('bossTitle').textContent=s.btype==='LAFT'?'EL LAVADOR':'EL CORRUPTO';$('bossProp').textContent=s.btype==='LAFT'?'💰':'🎁';toast(s.btype==='LAFT'?'💸 ¡EL LAVADOR ATACA!':'💼 ¡EL CORRUPTO ATACA!',800);bars();queue();controls()}
 function enemy(){const ln=s.lane,e=document.createElement('div');e.className='shot';const la=['💸','💵','🧾'],cs=['✉️','💼','🎁'];e.textContent=rnd(s.btype==='LAFT'?la:cs);F.appendChild(e);s.enemy.push({e,ln,t:0,d:.9,m:null})}
@@ -2073,7 +2202,7 @@ if(window.PointerEvent){
   $('fire').addEventListener('click',fire);
 }
 $('shieldBtn').addEventListener('click',()=>power('preventive'));$('boostBtn').addEventListener('click',()=>power('detective'));$('mitBtn').addEventListener('click',()=>power('corrective'));$('soundBtn').addEventListener('click',()=>{initAudio();muted=!muted;$('soundBtn').textContent=muted?'🔇':'🔊';$('soundBtn').setAttribute('aria-label',muted?'Activar sonido':'Silenciar sonido');if(!muted)sfx('cash')});r.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')move(-1);if(e.key==='ArrowRight')move(1);if(e.key===' '&&s?.phase==='boss')fire()});
-r.classList.remove('manual-fs');document.documentElement.classList.remove('rd-manual-fullscreen');document.body.classList.remove('rd-manual-fullscreen');wireInGameUI();s=fresh();score();player();bars();controls();renderBoard(loadBoard(),'');
+r.classList.add('prestart');r.classList.remove('manual-fs');document.documentElement.classList.remove('rd-manual-fullscreen');document.body.classList.remove('rd-manual-fullscreen');wireInGameUI();s=fresh();score();player();bars();controls();renderBoard(loadBoard(),'');
 if(onlineConfigured())setRankMode('RANKING ONLINE','Conectado al ranking compartido de LAFT América.');
 else setRankMode('RANKING LOCAL','Modo de prueba: falta conectar Supabase para compartir el ranking entre celulares.');
 })();
@@ -2081,7 +2210,7 @@ else setRankMode('RANKING LOCAL','Modo de prueba: falta conectar Supabase para c
 </div>
 
 <script>
-/* v23: evita que una versión antigua quede retenida por caché/service worker. */
+/* v24: evita que una versión antigua quede retenida por caché/service worker. */
 window.addEventListener('load', async () => {
   try{
     if('serviceWorker' in navigator){
