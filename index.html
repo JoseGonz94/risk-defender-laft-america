@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#123e67">
-<title>Risk Defender · LAFT América · v29</title>
+<title>Risk Defender · LAFT América · v30</title>
 <style>html,body{margin:0;padding:0;background:#fff}body{padding:10px;max-width:980px;margin:0 auto}
 /* ============================================================
    v13 · AJUSTE RESPONSIVO PARA CELULAR EN HORIZONTAL
@@ -2234,6 +2234,115 @@ html, body{
   }
 }
 
+
+
+/* ============================================================
+   v30 · AJUSTES DE UX iPHONE / CIERRE / RESULTADOS
+   ============================================================ */
+
+/* El isotipo final conserva su proporción real: evita el estiramiento
+   horizontal observado en iPhone. */
+#rd3 #resultOv .final-logo,
+#rd3.results-mode #resultOv .final-logo{
+  display:block !important;
+  width:52px !important;
+  height:auto !important;
+  max-width:52px !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  clip-path:inset(0 0 6px 0) !important;
+  margin:0 auto 1px !important;
+}
+
+/* CTA integrado: misma materialidad del resto del resultado, sin bloque
+   blanco independiente. */
+#rd3 .risk-cta,
+#rd3.results-mode .risk-cta{
+  margin:11px 0 13px !important;
+  padding:12px 12px 13px !important;
+  border:1px solid rgba(255,255,255,.22) !important;
+  border-radius:14px !important;
+  background:rgba(255,255,255,.07) !important;
+  box-shadow:none !important;
+  color:#fff !important;
+}
+#rd3 .risk-cta > strong,
+#rd3.results-mode .risk-cta > strong{
+  color:#ffd09b !important;
+  font-size:14px !important;
+  letter-spacing:.4px !important;
+}
+#rd3 .risk-cta p,
+#rd3.results-mode .risk-cta p{
+  max-width:470px !important;
+  margin:6px auto 11px !important;
+  color:#eef5f9 !important;
+  font-size:10.8px !important;
+  line-height:1.42 !important;
+}
+
+/* Solo los tres logos, en una fila. */
+#rd3 .social-links,
+#rd3.results-mode .social-links{
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:26px !important;
+}
+#rd3 .social-link,
+#rd3.results-mode .social-link{
+  width:50px !important;
+  height:50px !important;
+  min-width:50px !important;
+  min-height:50px !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:14px !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  text-decoration:none !important;
+}
+#rd3 .social-link:active{transform:scale(.94) !important}
+#rd3 .social-icon,
+#rd3.results-mode .social-icon{
+  width:46px !important;
+  height:46px !important;
+  flex:0 0 46px !important;
+  border-radius:13px !important;
+  font-size:28px !important;
+  box-shadow:0 4px 12px rgba(0,0,0,.16) !important;
+}
+#rd3 .social-icon svg{
+  width:27px !important;
+  height:27px !important;
+}
+#rd3 .linkedin-mark{
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-size:27px !important;
+  line-height:46px !important;
+}
+
+/* La página vertical es desplazable de forma natural. No bloqueamos
+   touch/scroll ni reposicionamos el documento. */
+@media (max-width:900px) and (orientation:portrait){
+  #rd3.prestart,
+  #rd3.results-mode{
+    touch-action:pan-y !important;
+  }
+  #rd3.prestart #startOv,
+  #rd3.results-mode #resultOv{
+    touch-action:pan-y !important;
+    overscroll-behavior-y:auto !important;
+  }
+  #rd3.results-mode .risk-cta p{
+    font-size:11px !important;
+  }
+}
+
 </style>
 
 <div class="hud">
@@ -2320,23 +2429,20 @@ html, body{
       <div class="experience">Esto fue 1 minuto de Experiencia Compliance.</div>
       <div class="risk-cta">
         <strong>¿QUIERES SABER MÁS?</strong>
-        <p>Pregúntanos por <b>Experiencia Compliance</b> y otros servicios de Risk Consulting.</p>
+        <p>Pregúntanos por <b>Experiencia Compliance</b> y otros servicios de <b>Risk Consulting Global Group</b>.</p>
         <div class="social-links">
-          <a class="social-link instagram" href="https://www.instagram.com/riskconsultingglobalgroup/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Risk Consulting">
+          <a class="social-link instagram" href="https://www.instagram.com/riskconsultingglobalgroup/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Risk Consulting Global Group" title="Instagram">
             <span class="social-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.4" cy="6.7" r="1"></circle></svg>
             </span>
-            <span>Instagram</span>
           </a>
-          <a class="social-link linkedin" href="https://www.linkedin.com/company/riskconsultingcolombia/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Risk Consulting">
+          <a class="social-link linkedin" href="https://www.linkedin.com/company/riskconsultingcolombia/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Risk Consulting Global Group" title="LinkedIn">
             <span class="social-icon linkedin-mark" aria-hidden="true">in</span>
-            <span>LinkedIn</span>
           </a>
-          <a class="social-link website" href="https://www.riskglobalconsulting.com/" target="_blank" rel="noopener noreferrer" aria-label="Página web de Risk Consulting">
+          <a class="social-link website" href="https://www.riskglobalconsulting.com/" target="_blank" rel="noopener noreferrer" aria-label="Página web de Risk Consulting Global Group" title="Página web">
             <span class="social-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9S14.5 18.4 12 21M12 3C9.5 5.6 8.2 8.6 8.2 12S9.5 18.4 12 21"></path></svg>
             </span>
-            <span>Página web</span>
           </a>
         </div>
       </div>
@@ -2637,13 +2743,14 @@ function fitViewport(){
   const vv=window.visualViewport;
   const h=Math.round((vv&&vv.height)||window.innerHeight);
   document.documentElement.style.setProperty('--rd-vh', `${h}px`);
-  if(isIOS()) window.scrollTo(0,0);
   requestAnimationFrame(fitStartCard);
 }
 window.addEventListener('resize',fitViewport,{passive:true});
 if(window.visualViewport){
+  // Solo recalculamos cuando cambia el tamaño útil (teclado/orientación).
+  // No escuchamos el scroll: Safari dispara ese evento continuamente y
+  // anteriormente terminaba recentrando la página en la parte superior.
   window.visualViewport.addEventListener('resize',fitViewport,{passive:true});
-  window.visualViewport.addEventListener('scroll',fitViewport,{passive:true});
 }
 window.addEventListener('orientationchange',()=>setTimeout(fitViewport,180),{passive:true});
 document.addEventListener('fullscreenchange',fitViewport);
@@ -2758,14 +2865,22 @@ function shots(dt){for(let i=s.shots.length-1;i>=0;i--){const z=s.shots[i];z.t+=
 function power(type){if(s.phase!=='boss'||s.active||!s.ctrl[type])return;s.ctrl[type]--;s.stats.u++;s.active=type;s.until=performance.now()+2000;setProg(type,100);clearPowerFx();const btn=type==='preventive'?'shieldBtn':type==='detective'?'boostBtn':'mitBtn';$(btn).classList.add('active-power');sfx('power');if(type==='corrective'){s.corr=15;$('boss').classList.add('mitigating');toast('🔧 MITIGACIÓN · 2 s')}if(type==='preventive'){$('shield').style.display='block';toast('🛡️ ESCUDO · 2 s')}if(type==='detective'){$('player').classList.add('boosted');toast('🔎 POTENCIA · 2 s')}controls()}
 function active(dt,now){if(s.active){setProg(s.active,((s.until-now)/2000)*100)}if(s.active==='corrective'&&s.corr>0){const d=Math.min(s.corr,7.5*dt);s.corr-=d;s.b-=d;bars();if(s.b<=0){s.b=0;bars();win();return}}if(s.active&&now>=s.until){const ended=s.active;if(ended==='preventive')$('shield').style.display='none';setProg(ended,0);s.active=null;s.corr=0;clearPowerFx();controls()}}
 function win(){if(!s.run)return;s.score+=500;score();finish('win')}
-function finish(reason){if(!s.run)return;s.run=false;cancelAnimationFrame(raf);clearTimers();cinemaOff();r.classList.remove('boss-ui','orientation-gate');r.classList.add('results-mode');s.enemy.forEach(z=>{z.e.remove();if(z.m)z.m.remove()});s.shots.forEach(z=>z.e.remove());$('shield').style.display='none';clearPowerFx();setProg('preventive',0);setProg('detective',0);setProg('corrective',0);$('movebar').style.display='none';$('powers').style.display='none';$('bars').style.display='none';$('queue').style.display='none';$('ra').textContent=s.stats.a;$('rc').textContent=s.stats.c;$('rf').textContent=s.stats.f;$('rb').textContent=s.stats.b;$('rh').textContent=s.stats.h;const mit=Math.round(cl(100-s.b,0,100));$('rm').textContent=mit+'%';$('finalScore').textContent=s.score+' PTS';rankInfo(s.alias,s.score);$('resultTitle').textContent=reason==='win'?'🏆 ¡RIESGO MITIGADO!':reason==='dead'?'⚠️ RIESGO MATERIALIZADO':'⏱️ MITIGACIÓN INCOMPLETA';let diag='Buen radar de riesgo: identificaste señales y llegaste con herramientas para responder.';if(s.stats.f>=4)diag='⚠️ Cuidado con los falsos positivos: recogiste situaciones normales que consumieron munición y tiempo.';else if(s.stats.a<5)diag='🔎 Refuerza tu radar: detectar más señales te habría dado mayor capacidad de respuesta.';else if(s.stats.c<2)diag='🛡️ Buena detección, pero llegaste con pocos controles para administrar el riesgo.';else if(reason==='win'&&s.stats.f<=1&&s.stats.u>=2)diag='👑 Excelente radar y administración de controles: detectaste, priorizaste y actuaste en el momento adecuado.';$('resultDiag').textContent=diag;if(reason==='win')sfx('win');else sfx('lose');showResultsPortrait()}
+function finish(reason){if(!s.run)return;s.run=false;cancelAnimationFrame(raf);clearTimers();cinemaOff();r.classList.remove('boss-ui','orientation-gate','result-orientation-gate','results-mode');s.enemy.forEach(z=>{z.e.remove();if(z.m)z.m.remove()});s.shots.forEach(z=>z.e.remove());$('shield').style.display='none';clearPowerFx();setProg('preventive',0);setProg('detective',0);setProg('corrective',0);$('movebar').style.display='none';$('powers').style.display='none';$('bars').style.display='none';$('queue').style.display='none';$('fire').style.display='none';$('ra').textContent=s.stats.a;$('rc').textContent=s.stats.c;$('rf').textContent=s.stats.f;$('rb').textContent=s.stats.b;$('rh').textContent=s.stats.h;const mit=Math.round(cl(100-s.b,0,100));$('rm').textContent=mit+'%';$('finalScore').textContent=s.score+' PTS';rankInfo(s.alias,s.score);$('resultTitle').textContent=reason==='win'?'🏆 ¡RIESGO MITIGADO!':reason==='dead'?'⚠️ RIESGO MATERIALIZADO':'⏱️ MITIGACIÓN INCOMPLETA';let diag='Buen radar de riesgo: identificaste señales y llegaste con herramientas para responder.';if(s.stats.f>=4)diag='⚠️ Cuidado con los falsos positivos: recogiste situaciones normales que consumieron munición y tiempo.';else if(s.stats.a<5)diag='🔎 Refuerza tu radar: detectar más señales te habría dado mayor capacidad de respuesta.';else if(s.stats.c<2)diag='🛡️ Buena detección, pero llegaste con pocos controles para administrar el riesgo.';else if(reason==='win'&&s.stats.f<=1&&s.stats.u>=2)diag='👑 Excelente radar y administración de controles: detectaste, priorizaste y actuaste en el momento adecuado.';$('resultDiag').textContent=diag;if(reason==='win')sfx('win');else sfx('lose');endOfGameTransition(reason)}
+function endOfGameTransition(reason){
+  const main=reason==='win'?'🏆 ¡RIESGO MITIGADO!':reason==='dead'?'⚠️ RIESGO MATERIALIZADO':'⏱️ MITIGACIÓN INCOMPLETA';
+  cinema(main,'PARTIDA FINALIZADA · GIRA TU CELULAR PARA VER TUS RESULTADOS');
+  schedule(()=>{
+    cinemaOff();
+    r.classList.add('results-mode');
+    showResultsPortrait();
+  },2200);
+}
 function showResultsPortrait(){
   const mobile=window.matchMedia&&window.matchMedia('(max-width:900px)').matches;
   const show=()=>{
     r.classList.remove('result-orientation-gate');
     $('resultOv').classList.remove('hidden');
     fitViewport();
-    window.scrollTo(0,0);
   };
   if(!mobile||mobilePortrait()){show();return}
   $('resultOv').classList.add('hidden');
@@ -2810,7 +2925,7 @@ else setRankMode('RANKING LOCAL','Modo de prueba: falta conectar Supabase para c
 </div>
 
 <script>
-/* v29: evita que una versión antigua quede retenida por caché/service worker. */
+/* v30: evita que una versión antigua quede retenida por caché/service worker. */
 window.addEventListener('load', async () => {
   try{
     if('serviceWorker' in navigator){
