@@ -3,733 +3,282 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Risk Defender · Tabla de Posiciones</title>
+<title>Risk Defender · Dashboard LAFT América · v36</title>
 <meta name="theme-color" content="#061b2c">
 <style>
+
 :root{
-  --navy:#06233b;
-  --navy-dark:#041827;
-  --blue:#0d5f86;
-  --cyan:#1eb7ef;
-  --orange:#f47721;
-  --white:#ffffff;
-  --ink:#0a3150;
-  --green:#4fe08b;
-  --red:#ff6262;
+  --navy:#06233b; --navy-dark:#041827; --cyan:#1eb7ef;
+  --orange:#f47721; --ink:#0a3150; --green:#4fe08b; --red:#ff6262;
 }
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;overflow:hidden;font-family:Inter,Segoe UI,Arial,sans-serif}
-body{background:linear-gradient(90deg,#fff 0 36%,var(--navy-dark) 36% 100%);color:#fff}
-.stage{width:100vw;height:100vh;display:grid;grid-template-columns:36% 64%}
+body{background:#041827;color:#fff}
+.stage{width:100vw;height:100vh;display:grid;grid-template-columns:42% 58%;position:relative;overflow:hidden}
 
-/* IZQUIERDA · limpia, blanca y centrada */
+/* ---------- LEFT ---------- */
 .left{
-  background:#fff;
-  color:var(--ink);
-  padding:2.3vh 2.2vw 2vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  min-width:0;
-  overflow:hidden;
+  min-width:0;height:100%;overflow:hidden;background:#fff;color:var(--ink);
+  padding:1.15vh 1.55vw .85vh;
+  display:grid;
+  grid-template-rows:7.2vh auto auto 27.2vh minmax(185px,25.8vh) auto 5.5vh auto;
+  align-content:space-between;
   border-right:1px solid #d9e3ea;
+  position:relative;
+}
+.left:after{
+  content:"";position:absolute;right:0;bottom:0;width:0;height:0;
+  border-left:74px solid transparent;border-bottom:74px solid var(--orange);pointer-events:none
+}
+.left:before{
+  content:"";position:absolute;left:0;bottom:0;width:0;height:0;
+  border-right:44px solid transparent;border-bottom:125px solid var(--navy);pointer-events:none
 }
 .brand{
-  width:100%;
-  height:11.5vh;
-  display:grid;
-  grid-template-columns:1.22fr 1fr;
-  align-items:center;
-  gap:1.3vw;
-  padding:0 .4vw;
+  width:86%;height:100%;margin:0 auto;border-bottom:1px solid #dce6ec;
+  display:grid;grid-template-columns:1fr 1fr;gap:2vw;align-items:center
 }
-.logo-risk,.logo-laft{display:flex;align-items:center;justify-content:center;height:100%;min-width:0}
-.logo-risk img{width:100%;height:100%;object-fit:contain}
-.logo-laft img{width:100%;height:86%;object-fit:contain}
-
+.logo-risk,.logo-laft{min-width:0;height:6.2vh;max-height:44px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.logo-risk img{display:block;width:auto;height:auto;max-width:88%;max-height:5.8vh;object-fit:contain}
+.logo-laft img{display:block;width:auto;height:auto;max-width:88%;max-height:5.4vh;object-fit:contain}
 .challenge{
-  width:100%;
-  margin-top:1.1vh;
-  text-align:center;
-  font-size:clamp(26px,2.35vw,50px);
-  font-weight:1000;
-  line-height:.92;
-  letter-spacing:-.045em;
-  text-transform:uppercase;
-  color:var(--ink);
+  width:96%;margin:0 auto;text-align:center;text-transform:uppercase;
+  font-size:clamp(22px,1.8vw,38px);font-weight:1000;line-height:.92;letter-spacing:-.04em
 }
 .challenge .orange{color:var(--orange)}
 .sub{
-  margin:.8vh 0 1.4vh;
-  text-align:center;
-  font-size:clamp(12px,.96vw,20px);
-  font-weight:800;
-  color:#3b5b70;
+  margin:0;text-align:center;color:#3b5b70;font-weight:850;
+  font-size:clamp(10px,.76vw,15px);line-height:1
 }
 
+/* Guide: explicit internal rows, no floating headings. */
+.gameguide{
+  width:96%;height:100%;margin:0 auto;display:grid;grid-template-columns:1.35fr .88fr;
+  gap:.62vw;min-height:0;color:#fff
+}
+.guide-main,.guide-side{
+  min-width:0;min-height:0;border:2px solid #4d7f9e;border-radius:17px;
+  background:linear-gradient(180deg,#0b3859,#062b47);overflow:hidden
+}
+.guide-main{
+  padding:.7vh .9vw;display:grid;
+  grid-template-rows:3.2vh repeat(6,1fr);align-items:center
+}
+.guide-title{
+  margin:0;text-align:center;font-size:clamp(16px,1.25vw,25px);
+  line-height:1;font-weight:1000;white-space:nowrap
+}
+.guide-title span,.guide-line em{color:var(--orange);font-style:normal;font-weight:1000}
+.guide-line{
+  display:grid;grid-template-columns:32px 1fr;gap:.35vw;align-items:center;
+  min-height:0;margin:0;font-size:clamp(9px,.65vw,13px);font-weight:750;line-height:1.06
+}
+.guide-line>b{text-align:center;font-size:clamp(14px,1vw,20px)}
+
+.guide-side{
+  padding:.65vh .62vw;display:grid;
+  grid-template-rows:2.8vh minmax(0,1fr) 3.1vh minmax(0,.82fr);gap:.45vh
+}
+.mini-title{
+  margin:0;min-height:0;display:flex;align-items:center;justify-content:center;
+  font-size:clamp(12px,.9vw,18px);font-weight:1000;line-height:1;white-space:nowrap
+}
+.controls-title{border-top:1px solid rgba(91,139,168,.45);padding-top:.35vh}
+.points-grid{
+  min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);
+  gap:.35vh .32vw
+}
+.points-grid span{
+  min-width:0;min-height:0;display:flex;align-items:center;justify-content:space-between;
+  gap:.15vw;padding:.2vh .28vw;border:1px solid rgba(91,139,168,.55);
+  border-radius:7px;background:rgba(3,22,37,.35);
+  font-size:clamp(7.5px,.52vw,10.5px);font-weight:850;line-height:1
+}
+.points-grid b{color:#ff9b2f;flex:0 0 auto}
+.control-grid{
+  min-height:0;display:grid;grid-template-columns:repeat(3,1fr);gap:.28vw
+}
+.control-grid span{
+  min-width:0;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border:1px solid rgba(91,139,168,.55);border-radius:8px;background:rgba(3,22,37,.35);
+  font-size:clamp(12px,.8vw,17px);line-height:1
+}
+.control-grid b,.control-grid small{display:block;font-size:clamp(7px,.47vw,9.5px);line-height:1.05}
+.control-grid b{margin-top:.12vh}.control-grid small{margin-top:.18vh;color:#d7e4ec}
+
 .qrbox{
-  width:min(64%,340px);
-  aspect-ratio:1/1;
-  background:#fff;
-  border:7px solid var(--ink);
-  border-radius:22px;
-  padding:13px;
-  display:grid;
-  place-items:center;
-  box-shadow:0 10px 28px rgba(4,34,55,.12);
+  align-self:center;justify-self:center;width:min(25.8vh,215px);height:min(25.8vh,215px);
+  min-width:185px;min-height:185px;background:#fff;border:7px solid var(--ink);
+  border-radius:20px;padding:9px;display:grid;place-items:center;
+  box-shadow:0 8px 22px rgba(4,34,55,.12)
 }
 .qrbox img{width:100%;height:100%;object-fit:contain}
 .scan{
-  margin-top:1vh;
-  width:min(64%,340px);
-  background:var(--ink);
-  color:#fff;
-  border-radius:12px;
-  padding:.9vh .7vw;
-  text-align:center;
-  font-weight:1000;
-  font-size:clamp(13px,1.05vw,21px);
-  letter-spacing:.015em;
+  justify-self:center;width:min(48%,340px);margin:0;background:var(--ink);color:#fff;
+  border-radius:10px;padding:.5vh .55vw;text-align:center;font-weight:1000;
+  font-size:clamp(9px,.66vw,13px);line-height:1.1
 }
 
+/* Exactly 3 equal cards; contents centered as a group. */
 .steps{
-  margin-top:1.25vh;
-  width:92%;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:.65vw;
+  width:94%;height:100%;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:.65vw;align-items:stretch
 }
 .step{
-  min-height:5.7vh;
-  border:1px solid #d7e2e9;
-  border-radius:11px;
-  background:#f5f8fa;
-  display:flex;
-  align-items:center;
-  gap:7px;
-  padding:.55vh .55vw;
-  color:#173d57;
-  font-size:clamp(9px,.69vw,14px);
-  line-height:1.12;
-  font-weight:850;
+  min-width:0;height:100%;border:1px solid #d3e0e8;border-radius:14px;background:#f4f8fa;
+  display:flex;align-items:center;justify-content:center;gap:.55vw;padding:.35vh .5vw;
+  color:#173d57;overflow:hidden
 }
-.n{
-  flex:0 0 29px;
-  width:29px;height:29px;
-  border-radius:50%;
-  background:var(--orange);
-  color:#fff;
-  display:grid;
-  place-items:center;
-  font-weight:1000;
+.step .n{
+  flex:0 0 32px;width:32px;height:32px;border-radius:50%;background:var(--orange);color:#fff;
+  display:grid;place-items:center;font-size:12px;font-weight:1000
+}
+.step-text{
+  display:block;text-align:left;font-size:clamp(7.8px,.54vw,10.8px);
+  font-weight:900;line-height:1.08;white-space:normal
 }
 .footerline{
-  margin-top:auto;
-  width:92%;
-  text-align:center;
-  padding:.8vh .8vw;
-  border-top:2px solid #e7edf1;
-  font-size:clamp(13px,1vw,20px);
-  font-weight:950;
-  color:var(--ink);
-  letter-spacing:.02em;
+  width:94%;margin:0 auto;padding:.45vh .4vw .15vh;border-top:2px solid #d9e4ea;
+  text-align:center;font-size:clamp(10px,.76vw,15px);font-weight:1000;line-height:1.1
 }
 .footerline span{color:var(--orange)}
 
-/* DERECHA · ranking */
+/* ---------- RIGHT ---------- */
 .right{
-  background:linear-gradient(145deg,#082940 0%,#041827 62%,#06233b 100%);
-  padding:2.8vh 2.2vw 2.5vh;
-  min-width:0;
-  display:flex;
+  min-width:0;height:100%;overflow:hidden;padding:1.15vh 1.35vw;
+  background:linear-gradient(145deg,#082940 0%,#041827 62%,#06233b 100%)
 }
 .board{
-  width:100%;height:100%;
-  background:linear-gradient(180deg,rgba(5,26,43,.97),rgba(3,17,29,.98));
-  border:3px solid var(--orange);
-  border-radius:26px;
+  width:100%;height:100%;min-height:0;overflow:hidden;position:relative;
+  padding:1.1vh 1.35vw 1vh;border:3px solid var(--orange);border-radius:26px;
+  background:linear-gradient(180deg,rgba(5,26,43,.98),rgba(3,17,29,.99));
   box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 0 32px rgba(244,119,33,.16);
-  padding:2.2vh 1.6vw 1.7vh;
-  display:flex;
-  flex-direction:column;
-  position:relative;
-  overflow:hidden;
+  display:grid;
+  grid-template-rows:9.2vh 4.6vh minmax(0,1fr) 9.6vh;
+  row-gap:.75vh
 }
 .board:before{
-  content:"";
-  position:absolute;inset:0;
+  content:"";position:absolute;inset:0;
   background:linear-gradient(115deg,transparent 0 61%,rgba(30,183,239,.035) 61% 62%,transparent 62%);
-  pointer-events:none;
-}
-.head{display:flex;align-items:flex-end;justify-content:space-between;gap:1vw;margin-bottom:1.25vh;position:relative;z-index:1}
-.title{font-size:clamp(27px,2.5vw,54px);font-weight:1000;line-height:.9;letter-spacing:-.035em;text-transform:uppercase}
-.title span{color:var(--orange);display:block}
-.live{display:flex;align-items:center;gap:8px;font-size:clamp(11px,.8vw,16px);font-weight:900;color:#c9d8e3}
-.dot{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);animation:pulse 1.5s infinite}
-@keyframes pulse{50%{opacity:.35}}
-
-.tablehead,.row{display:grid;grid-template-columns:62px minmax(150px,1.5fr) minmax(110px,.8fr) 110px;align-items:center}
-.tablehead{height:5vh;border:1px solid var(--cyan);border-radius:12px 12px 0 0;padding:0 .7vw;color:#dbeaf3;font-size:clamp(11px,.9vw,18px);font-weight:950;text-transform:uppercase}
-.rows{position:relative;flex:1;min-height:0}
-.row{height:8.05%;min-height:42px;padding:0 .7vw;border-left:1px solid rgba(30,183,239,.3);border-right:1px solid rgba(30,183,239,.3);border-bottom:1px solid rgba(30,183,239,.16);font-size:clamp(13px,1.02vw,21px);transition:transform .75s cubic-bezier(.2,.8,.2,1),background .45s,box-shadow .45s,opacity .35s;position:relative}
-.row:last-child{border-radius:0 0 12px 12px}
-.row.top1{background:linear-gradient(90deg,rgba(255,191,54,.28),rgba(255,145,25,.12));border-color:#ffb400;box-shadow:0 0 18px rgba(255,177,0,.18) inset}
-.row.new{animation:newrow 1.3s ease}
-@keyframes newrow{0%{background:rgba(79,224,139,.55);transform:scale(1.025)}100%{}}
-.pos{font-weight:1000;font-size:1.08em}
-.medal{width:35px;height:35px;border-radius:50%;display:grid;place-items:center;font-weight:1000;color:#08223a;background:#dbe3e8;box-shadow:inset 0 -4px 8px rgba(0,0,0,.18)}
-.row:nth-child(1) .medal{background:linear-gradient(#ffd966,#f4a000)}
-.row:nth-child(2) .medal{background:linear-gradient(#f2f5f7,#aeb9c0)}
-.row:nth-child(3) .medal{background:linear-gradient(#eaa06b,#a95522)}
-.alias{font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.score{font-weight:1000;font-variant-numeric:tabular-nums}
-.move{display:flex;align-items:center;gap:7px;font-weight:950;justify-content:flex-start}
-.up{color:var(--green)} .down{color:var(--red)} .same{color:#8196a5}
-.arrow{font-size:1.15em}
-
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.8vw;margin-top:1.3vh}
-.stat{border:1px solid var(--cyan);border-radius:13px;min-height:8.5vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(4,19,32,.72)}
-.stat.record{border-color:var(--orange)}
-.stat b{font-size:clamp(21px,1.8vw,38px);font-weight:1000}
-.stat span{font-size:clamp(9px,.7vw,14px);font-weight:900;color:#b9ccd9;text-transform:uppercase;letter-spacing:.05em}
-.recordAlias{color:var(--orange)!important;margin-top:2px}
-.recordflash{position:absolute;inset:0;display:grid;place-items:center;background:rgba(3,17,28,.82);z-index:10;opacity:0;pointer-events:none;transition:opacity .35s}
-.recordflash.show{opacity:1}
-.recordflash div{font-size:clamp(42px,5vw,100px);font-weight:1000;text-align:center;color:#fff;text-shadow:0 0 25px rgba(255,122,33,.7);animation:boom .8s ease}
-.recordflash span{display:block;color:var(--orange)}
-@keyframes boom{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
-.empty{height:100%;display:grid;place-items:center;color:#8299aa;font-weight:800;text-align:center}
-.fs{position:fixed;right:12px;top:10px;z-index:20;border:1px solid rgba(255,255,255,.28);background:rgba(5,25,40,.78);color:white;border-radius:999px;padding:8px 12px;font-weight:900;cursor:pointer;backdrop-filter:blur(8px)}
-
-@media(max-width:1200px){
-  .stage{grid-template-columns:38% 62%}
-  body{background:linear-gradient(90deg,#fff 0 38%,var(--navy-dark) 38% 100%)}
-  .brand{height:10vh}
-  .qrbox,.scan{width:72%}
-  .steps{width:98%}
+  pointer-events:none
 }
 
-/* ============================================================
-   v3 · REDISTRIBUCIÓN COLUMNA PROMOCIONAL
-   ============================================================ */
-
-/* La columna izquierda usa toda la altura de forma intencional */
-.left{
-  padding:2.0vh 2.35vw 1.6vh !important;
-  justify-content:flex-start !important;
-}
-
-/* Logos: dos cajas equivalentes, misma altura visual y sin solapamientos */
-.brand{
-  flex:0 0 13.2vh !important;
-  width:94% !important;
-  height:13.2vh !important;
-  display:grid !important;
-  grid-template-columns:1fr 1fr !important;
-  gap:1.7vw !important;
-  align-items:center !important;
-  padding:0 !important;
-  margin:0 0 1.5vh !important;
-  border-bottom:1px solid #e7edf1;
-}
-.logo-risk,.logo-laft{
-  height:10.2vh !important;
-  width:100% !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  overflow:hidden !important;
-}
-.logo-risk img,.logo-laft img{
-  display:block !important;
-  width:auto !important;
-  height:auto !important;
-  max-width:100% !important;
-  max-height:9.2vh !important;
-  object-fit:contain !important;
-}
-
-/* Titular claramente separado de los logos y centrado con el QR */
-.challenge{
-  flex:0 0 auto !important;
-  width:92% !important;
-  margin:0 auto .55vh !important;
-  text-align:center !important;
-  font-size:clamp(25px,2.18vw,46px) !important;
-  line-height:.96 !important;
-}
-.sub{
-  flex:0 0 auto !important;
-  width:92% !important;
-  margin:.35vh auto 1.15vh !important;
-  text-align:center !important;
-}
-
-/* QR un poco más contenido para poder repartir mejor toda la columna */
-.qrbox{
-  flex:0 0 auto !important;
-  width:min(61%,325px) !important;
-  margin:0 auto !important;
-}
-.scan{
-  flex:0 0 auto !important;
-  width:min(61%,325px) !important;
-  margin:1.0vh auto 0 !important;
-}
-
-/* Instrucciones ocupan el espacio medio inferior y se leen mejor */
-.steps{
-  flex:0 0 auto !important;
-  width:92% !important;
-  margin:1.45vh auto 0 !important;
-  gap:.75vw !important;
-}
-.step{
-  min-height:6.2vh !important;
-  padding:.65vh .55vw !important;
-  font-size:clamp(10px,.72vw,14px) !important;
-}
-
-/* El cierre ya no queda aislado en el borde inferior */
-.footerline{
-  flex:0 0 auto !important;
-  width:92% !important;
-  margin:2.0vh auto 0 !important;
-  padding:1.05vh .8vw !important;
-  border-top:2px solid #e4ebf0 !important;
-  border-bottom:2px solid #e4ebf0 !important;
-  font-size:clamp(14px,1.05vw,21px) !important;
-}
-
-/* En pantallas 16:9 típicas del stand, repartir aún mejor */
-@media (min-aspect-ratio: 16/10){
-  .brand{flex-basis:12.6vh !important;height:12.6vh !important;margin-bottom:1.25vh !important}
-  .logo-risk,.logo-laft{height:9.8vh !important}
-  .logo-risk img,.logo-laft img{max-height:8.9vh !important}
-  .challenge{font-size:clamp(24px,2.05vw,44px) !important}
-  .qrbox{width:min(59%,315px) !important}
-  .scan{width:min(59%,315px) !important}
-  .steps{margin-top:1.25vh !important}
-  .footerline{margin-top:1.7vh !important}
-}
-
-
-/* ============================================================
-   v4 · PODIO VISUAL
-   1° ORO · 2° PLATA · 3° BRONCE · RESTO NEUTRO
-   ============================================================ */
-
-/* 1° ORO */
-#rows .row:nth-child(1){
-  background:linear-gradient(90deg,
-    rgba(255,190,35,.34) 0%,
-    rgba(190,128,8,.23) 48%,
-    rgba(255,190,35,.12) 100%) !important;
-  border-left:1px solid #f6b900 !important;
-  border-right:1px solid #f6b900 !important;
-  border-bottom:1px solid rgba(246,185,0,.72) !important;
-  box-shadow:inset 0 0 18px rgba(255,187,25,.11);
-}
-#rows .row:nth-child(1) .medal{
-  background:linear-gradient(145deg,#fff1a1 0%,#ffc52f 45%,#d78b00 100%) !important;
-  color:#08223a !important;
-  border:1px solid #ffd45b;
-  box-shadow:0 0 12px rgba(255,190,35,.28),inset 0 -4px 8px rgba(120,70,0,.20);
-}
-
-/* 2° PLATA */
-#rows .row:nth-child(2){
-  background:linear-gradient(90deg,
-    rgba(218,229,237,.26) 0%,
-    rgba(132,151,166,.17) 48%,
-    rgba(218,229,237,.07) 100%) !important;
-  border-left:1px solid #aebdca !important;
-  border-right:1px solid #aebdca !important;
-  border-bottom:1px solid rgba(190,205,216,.58) !important;
-}
-#rows .row:nth-child(2) .medal{
-  background:linear-gradient(145deg,#ffffff 0%,#dce5eb 48%,#8e9eaa 100%) !important;
-  color:#08223a !important;
-  border:1px solid #eef4f7;
-  box-shadow:0 0 10px rgba(220,231,238,.20),inset 0 -4px 8px rgba(50,65,76,.18);
-}
-
-/* 3° BRONCE / COBRE */
-#rows .row:nth-child(3){
-  background:linear-gradient(90deg,
-    rgba(207,111,53,.30) 0%,
-    rgba(128,66,34,.19) 48%,
-    rgba(207,111,53,.08) 100%) !important;
-  border-left:1px solid #c96f39 !important;
-  border-right:1px solid #c96f39 !important;
-  border-bottom:1px solid rgba(210,119,63,.65) !important;
-}
-#rows .row:nth-child(3) .medal{
-  background:linear-gradient(145deg,#f4b07d 0%,#cf713b 48%,#8e421f 100%) !important;
-  color:#fff !important;
-  border:1px solid #e99460;
-  box-shadow:0 0 10px rgba(210,111,55,.22),inset 0 -4px 8px rgba(72,30,12,.22);
-}
-
-/* 4° en adelante: fondo limpio y medalla blanca/neutra */
-#rows .row:nth-child(n+4){
-  background:rgba(3,25,42,.58) !important;
-  border-left:1px solid rgba(30,183,239,.22) !important;
-  border-right:1px solid rgba(30,183,239,.22) !important;
-  border-bottom:1px solid rgba(30,183,239,.14) !important;
-}
-#rows .row:nth-child(n+4) .medal{
-  background:linear-gradient(145deg,#ffffff 0%,#e8eff3 62%,#c7d3db 100%) !important;
-  color:#08223a !important;
-  border:1px solid rgba(255,255,255,.78);
-  box-shadow:inset 0 -3px 7px rgba(35,55,68,.16);
-}
-
-/* Conserva el destello verde de un jugador que acaba de entrar al Top 10 */
-#rows .row.new{
-  animation:newrow 1.3s ease !important;
-}
-
-
-/* ============================================================
-   v5 · ACERCAMIENTO AL MOCKUP APROBADO
-   ============================================================ */
-
-/* Fondo promocional: blanco con textura geométrica sutil */
-.left{
-  position:relative !important;
-  isolation:isolate;
-  background:
-    linear-gradient(135deg, rgba(13,95,134,.055) 0 12%, transparent 12% 28%),
-    linear-gradient(45deg, transparent 0 72%, rgba(13,95,134,.045) 72% 84%, transparent 84%),
-    #fff !important;
-}
-.left > *{
-  position:relative;
-  z-index:3;
-}
-/* Textura diagonal adicional */
-.left::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-  opacity:.7;
-  background:
-    linear-gradient(135deg, transparent 0 69%, rgba(5,47,77,.055) 69% 70%, transparent 70%),
-    linear-gradient(45deg, transparent 0 18%, rgba(5,47,77,.035) 18% 19%, transparent 19%);
-}
-/* Triángulo naranja inferior como en el mockup */
-.left::after{
-  content:"";
-  position:absolute;
-  z-index:1;
-  pointer-events:none;
-  right:-1px;
-  bottom:0;
-  width:0;
-  height:0;
-  border-left:72px solid transparent;
-  border-bottom:72px solid var(--orange);
-}
-/* pequeño acento azul en la esquina inferior izquierda */
-.stage::before{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:0;
-  z-index:2;
-  width:0;height:0;
-  border-right:42px solid transparent;
-  border-bottom:118px solid var(--navy);
-  pointer-events:none;
-}
-
-/* Reparto vertical izquierdo: elimina la sensación de vacío */
-.brand{margin-bottom:1.15vh !important}
-.challenge{margin-bottom:.35vh !important}
-.sub{margin-bottom:1.0vh !important}
-.steps{margin-top:1.25vh !important}
-.footerline{
-  margin:1.55vh auto 0 !important;
-  padding:1.05vh .8vw !important;
-  border-top:2px solid #dce6ec !important;
-  border-bottom:0 !important;
-  font-size:clamp(15px,1.12vw,23px) !important;
-}
-
-/* Cabecera del ranking: mucho más cercana al mockup */
+/* Header is its own row. Nothing from it can enter the table. */
 .head{
-  min-height:10.8vh !important;
-  align-items:center !important;
-  margin-bottom:1.15vh !important;
+  min-width:0;min-height:0;margin:0;padding:0 10vw 0 0;
+  display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1
 }
-.title-wrap{
-  display:flex;
-  align-items:center;
-  gap:1.05vw;
-  min-width:0;
-}
+.title-wrap{min-width:0;height:100%;display:flex;align-items:center;gap:.75vw}
 .title-trophy{
-  flex:0 0 auto;
-  width:clamp(62px,5.2vw,105px);
-  height:clamp(62px,5.2vw,105px);
-  filter:drop-shadow(0 7px 10px rgba(244,154,8,.22));
+  flex:0 0 auto;width:min(6.4vh,58px);height:min(6.4vh,58px);
+  filter:drop-shadow(0 5px 8px rgba(244,154,8,.2))
 }
 .title{
-  font-size:clamp(34px,3.15vw,68px) !important;
-  line-height:.80 !important;
-  letter-spacing:-.045em !important;
+  display:flex;align-items:baseline;gap:.28em;white-space:nowrap;
+  font-size:clamp(23px,1.8vw,36px);font-weight:1000;line-height:1;
+  letter-spacing:-.03em;text-transform:uppercase
 }
-.title span{
-  margin-top:.12em;
-}
+.title span{display:inline;margin:0;color:var(--orange);line-height:1}
 .live{
-  align-self:center !important;
-  font-size:clamp(12px,.9vw,18px) !important;
+  position:absolute;right:0;bottom:.35vh;display:flex;align-items:center;gap:7px;
+  font-size:clamp(8px,.58vw,11px);font-weight:900;color:#c9d8e3;white-space:nowrap
 }
+.dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 1.5s infinite}
+@keyframes pulse{50%{opacity:.35}}
 
-/* La tabla gana presencia vertical y reduce el vacío intermedio */
-.tablehead{
-  height:5.4vh !important;
-}
-.row{
-  min-height:47px !important;
-}
-.rows{
-  flex:1 1 auto !important;
-}
-
-/* Tarjetas inferiores con iconos reales en HTML/SVG */
-.stats{
-  min-height:11.2vh !important;
-  margin-top:1.45vh !important;
-}
-.stat{
-  min-height:10.5vh !important;
-  display:grid !important;
-  grid-template-columns:minmax(52px,27%) 1fr !important;
-  align-items:center !important;
-  justify-items:center !important;
-  padding:.65vh .75vw !important;
-}
-.stat-icon{
-  width:clamp(45px,4.2vw,82px);
-  height:clamp(45px,4.2vw,82px);
-  display:grid;
-  place-items:center;
-}
-.stat-icon svg{
-  width:100%;
-  height:100%;
-  display:block;
-}
-.stat-copy{
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  line-height:1.03;
-}
-.stat-copy b{
-  font-size:clamp(23px,2vw,42px) !important;
-  white-space:nowrap;
-}
-.stat-copy > span:not(.recordAlias){
-  font-size:clamp(10px,.78vw,16px) !important;
-  line-height:1.08;
-  text-align:center;
-}
-.recordAlias{
-  font-size:clamp(10px,.75vw,15px) !important;
-  margin-top:4px !important;
-}
-
-/* Borde y profundidad del panel, similar al mockup */
-.board{
-  background:
-    linear-gradient(115deg, rgba(14,72,106,.11) 0 16%, transparent 16% 62%, rgba(19,107,151,.07) 62% 64%, transparent 64%),
-    linear-gradient(180deg,rgba(5,26,43,.985),rgba(3,17,29,.99)) !important;
-}
-
-
-/* ============================================================
-   v6 · DISTRIBUCIÓN VERTICAL DEL BLOQUE IZQUIERDO
-   ============================================================ */
-
-/* Los siete bloques ocupan ahora toda la altura útil de forma equilibrada */
-.left{
-  display:grid !important;
-  grid-template-columns:1fr !important;
-  grid-template-rows:auto auto auto auto auto auto auto !important;
-  align-content:space-between !important;
-  justify-items:center !important;
-  padding:2.3vh 2.35vw 2.4vh !important;
-}
-
-/* Eliminamos márgenes acumulados: el espacio lo gobierna el grid */
-.brand{
-  width:94% !important;
-  height:12.4vh !important;
-  margin:0 !important;
-  align-self:start !important;
-}
-.logo-risk,.logo-laft{
-  height:9.7vh !important;
-}
-.logo-risk img,.logo-laft img{
-  max-height:8.8vh !important;
-}
-
-.challenge{
-  width:94% !important;
-  margin:0 !important;
-  align-self:center !important;
-}
-.sub{
-  width:94% !important;
-  margin:0 !important;
-  align-self:center !important;
-}
-
-/* QR ligeramente mayor y centrado para darle más peso al llamado a jugar */
-.qrbox{
-  width:min(64%,350px) !important;
-  margin:0 !important;
-  align-self:center !important;
-}
-.scan{
-  width:min(64%,350px) !important;
-  margin:0 !important;
-  align-self:center !important;
-}
-
-.steps{
-  width:94% !important;
-  margin:0 !important;
-  align-self:center !important;
-}
-
-.footerline{
-  width:94% !important;
-  margin:0 !important;
-  padding:1.15vh .8vw !important;
-  align-self:end !important;
-}
-
-/* En pantallas 16:9 grandes, damos un poco más de presencia al QR */
-@media (min-width:1400px) and (min-aspect-ratio:16/10){
-  .qrbox{width:min(66%,365px) !important}
-  .scan{width:min(66%,365px) !important}
-  .brand{height:12.8vh !important}
-}
-
-/* Si la pantalla es menos alta, conserva todo visible sin comprimir el ranking */
-@media (max-height:800px){
-  .left{padding-top:1.5vh !important;padding-bottom:1.5vh !important}
-  .brand{height:10.8vh !important}
-  .logo-risk,.logo-laft{height:8.6vh !important}
-  .logo-risk img,.logo-laft img{max-height:7.8vh !important}
-  .qrbox{width:min(58%,300px) !important}
-  .scan{width:min(58%,300px) !important}
-  .footerline{padding:.75vh .7vw !important}
-}
-
-
-/* ============================================================
-   v7 · AJUSTE FINAL DE ENCUADRE DEL PANEL DERECHO
-   Mantiene todo el diseño y asegura que el marco naranja
-   inferior siempre quede dentro del viewport.
-   ============================================================ */
-
-html, body, .stage{
-  height:100%;
-  min-height:0;
-}
-
-/* El panel derecho queda estrictamente contenido en la pantalla */
-.right{
-  height:100vh !important;
-  min-height:0 !important;
-  overflow:hidden !important;
-  padding:1.35vh 1.65vw 1.35vh !important;
-  align-items:stretch !important;
-}
-
-.board{
-  height:100% !important;
-  min-height:0 !important;
-  overflow:hidden !important;
-  padding:1.45vh 1.6vw 1.15vh !important;
-}
-
-/* Subimos ligeramente todo el contenido sin alterar proporciones */
-.head{
-  min-height:9.4vh !important;
-  margin-bottom:.8vh !important;
+.tablehead,.row{
+  display:grid;grid-template-columns:54px minmax(130px,1.55fr) minmax(100px,.78fr) 110px;
+  align-items:center;padding:0 .65vw
 }
 .tablehead{
-  height:5.0vh !important;
-  flex:0 0 auto !important;
+  min-height:0;height:100%;border:1px solid var(--cyan);border-radius:12px 12px 0 0;
+  color:#dbeaf3;font-size:clamp(10px,.72vw,14px);font-weight:950;text-transform:uppercase
 }
+
+/* Ten rows are an actual 10-row grid. No percentage heights + min-height conflict. */
 .rows{
-  flex:1 1 0 !important;
-  min-height:0 !important;
-  overflow:hidden !important;
+  min-height:0;overflow:hidden;display:grid;grid-template-rows:repeat(10,minmax(0,1fr));
+  position:relative
 }
-
-/* Las diez filas se reparten exactamente el alto disponible */
 .row{
-  height:10% !important;
-  min-height:0 !important;
+  min-height:0;height:auto;padding:0 .65vw;border-left:1px solid rgba(30,183,239,.3);
+  border-right:1px solid rgba(30,183,239,.3);border-bottom:1px solid rgba(30,183,239,.16);
+  font-size:clamp(11px,.78vw,15.5px);position:relative;
+  transition:transform .75s cubic-bezier(.2,.8,.2,1),background .45s,box-shadow .45s,opacity .35s
 }
+.row:last-child{border-radius:0 0 12px 12px}
+.row.top1{background:linear-gradient(90deg,rgba(255,191,54,.28),rgba(255,145,25,.12));border-color:#ffb400}
+.row.new{animation:newrow 1.3s ease}
+@keyframes newrow{0%{background:rgba(79,224,139,.55);transform:scale(1.015)}100%{}}
 
-/* Tarjetas inferiores un poco más arriba y compactas */
+/* Critical fix: badges are smaller than their row, so positions never overlap rows. */
+.pos{display:flex;align-items:center;height:100%;font-weight:1000}
+.medal{
+  width:min(4.2vh,34px);height:min(4.2vh,34px);min-width:26px;min-height:26px;
+  border-radius:50%;display:grid;place-items:center;color:#08223a;background:#dbe3e8;
+  box-shadow:inset 0 -3px 6px rgba(0,0,0,.16);font-size:.95em;font-weight:1000
+}
+.row:nth-child(1) .medal{background:linear-gradient(#ffd966,#f4a000)}
+.row:nth-child(2) .medal{background:linear-gradient(#f2f5f7,#aeb9c0)}
+.row:nth-child(3) .medal{background:linear-gradient(#eaa06b,#a95522);color:#fff}
+.alias{font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.score{font-weight:1000;font-variant-numeric:tabular-nums}
+.move{display:flex;align-items:center;gap:6px;font-weight:950}
+.up{color:var(--green)}.down{color:var(--red)}.same{color:#8196a5}.arrow{font-size:1.05em}
+.empty{height:100%;display:grid;place-items:center;color:#8299aa;font-weight:800;text-align:center}
+
 .stats{
-  flex:0 0 auto !important;
-  min-height:9.2vh !important;
-  margin-top:.9vh !important;
+  min-height:0;height:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:.8vw;margin:0
 }
 .stat{
-  min-height:8.8vh !important;
-  padding:.45vh .7vw !important;
+  min-width:0;min-height:0;height:100%;border:1px solid var(--cyan);border-radius:13px;
+  background:rgba(4,19,32,.72);display:grid;grid-template-columns:28% 1fr;
+  align-items:center;justify-items:center;padding:.4vh .65vw
 }
-.stat-icon{
-  width:clamp(42px,3.7vw,72px) !important;
-  height:clamp(42px,3.7vw,72px) !important;
+.stat.record{border-color:var(--orange)}
+.stat-icon{width:min(5.8vh,50px);height:min(5.8vh,50px);display:grid;place-items:center}
+.stat-icon svg{width:100%;height:100%}
+.stat-copy{min-width:0;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.stat-copy b,.stat>b{font-size:clamp(18px,1.45vw,29px);font-weight:1000;line-height:.92;white-space:nowrap}
+.stat-copy span,.stat>span{
+  font-size:clamp(7.5px,.53vw,10.5px);font-weight:900;color:#b9ccd9;
+  text-transform:uppercase;letter-spacing:.04em;line-height:1.05
+}
+.recordAlias{color:var(--orange)!important;margin-top:2px}
+
+.recordflash{
+  position:absolute;inset:0;display:grid;place-items:center;background:rgba(3,17,28,.82);
+  z-index:10;opacity:0;pointer-events:none;transition:opacity .35s
+}
+.recordflash.show{opacity:1}
+.recordflash div{font-size:clamp(42px,5vw,100px);font-weight:1000;text-align:center;color:#fff}
+.recordflash span{display:block;color:var(--orange)}
+
+.fs{
+  position:fixed;right:1.25vw;top:1.8vh;z-index:20;border:1px solid rgba(255,255,255,.28);
+  background:rgba(5,25,40,.82);color:#fff;border-radius:999px;padding:.75vh 1vw;
+  font-size:clamp(10px,.7vw,14px);font-weight:900;cursor:pointer;backdrop-filter:blur(8px)
 }
 
-/* Protección adicional para pantallas con poca altura útil */
-@media (max-height:850px){
-  .right{
-    padding:.9vh 1.45vw !important;
+/* Keep the same composition on event screens with less vertical room. */
+@media (max-height:760px){
+  .left{
+    grid-template-rows:6.8vh auto auto 26.5vh minmax(180px,25vh) auto 5.3vh auto;
+    padding:.8vh 1.45vw .65vh
   }
-  .board{
-    padding:1vh 1.45vw .8vh !important;
-  }
-  .head{
-    min-height:8.3vh !important;
-    margin-bottom:.55vh !important;
-  }
-  .title-trophy{
-    width:clamp(54px,4.5vw,86px) !important;
-    height:clamp(54px,4.5vw,86px) !important;
-  }
-  .title{
-    font-size:clamp(31px,2.8vw,58px) !important;
-  }
-  .tablehead{
-    height:4.7vh !important;
-  }
-  .stats{
-    min-height:8.4vh !important;
-    margin-top:.65vh !important;
-  }
-  .stat{
-    min-height:8vh !important;
-  }
+  .gameguide{width:95%}
+  .guide-main{grid-template-rows:3vh repeat(6,1fr);padding:.55vh .75vw}
+  .guide-side{padding:.5vh .52vw;gap:.32vh}
+  .qrbox{width:min(25vh,200px);height:min(25vh,200px);min-width:180px;min-height:180px}
+  .board{grid-template-rows:8.7vh 4.5vh minmax(0,1fr) 9.2vh;row-gap:.62vh}
+  .title{font-size:clamp(22px,1.7vw,33px)}
+  .title-trophy{width:min(6vh,52px);height:min(6vh,52px)}
+  .medal{width:min(4vh,32px);height:min(4vh,32px)}
+}
+@media (max-width:1200px){
+  .stage{grid-template-columns:42% 58%}
+  .title{font-size:clamp(20px,1.65vw,31px)}
+  .tablehead,.row{grid-template-columns:48px minmax(110px,1.45fr) minmax(90px,.8fr) 100px}
 }
 
 </style>
@@ -746,13 +295,40 @@ html, body, .stage{
     <div class="challenge">1 MINUTO DE<br><span class="orange">EXPERIENCIA COMPLIANCE</span></div>
     <div class="sub">¿Qué tan bien defiendes tu organización?</div>
 
+    <div class="gameguide">
+      <div class="guide-main">
+        <div class="guide-title">🎮 ¿CÓMO <span>JUGAR?</span></div>
+        <div class="guide-line"><b>← →</b><span>Desplázate a la <em>izquierda</em> o a la <em>derecha</em>.</span></div>
+        <div class="guide-line"><b>🚩</b><span>Las <em>señales de alerta</em> se convierten en munición.</span></div>
+        <div class="guide-line"><b>🛡️</b><span>Los <em>controles</em> te dan poderes para el reto final.</span></div>
+        <div class="guide-line"><b>💵</b><span>Los <em>billetes</em> suman puntos.</span></div>
+        <div class="guide-line"><b>✅</b><span>Evita operaciones normales: recogerlas crea <em>falsos positivos</em>.</span></div>
+        <div class="guide-line"><b>🔥</b><span>En el <em>reto final</em>: dispara, esquiva y usa tus controles.</span></div>
+      </div>
+      <div class="guide-side">
+        <div class="mini-title">🏆 PUNTOS</div>
+        <div class="points-grid">
+          <span>💵 Billete <b>+10</b></span><span>🚩 Señal <b>+50</b></span>
+          <span>🛡️ Control <b>+70</b></span><span>✅ Falso positivo <b>0</b></span>
+          <span>🎯 Golpe útil <b>+20</b></span><span>👑 Reto final <b>+500</b></span>
+        </div>
+        <div class="mini-title controls-title">⚡ CONTROLES</div>
+        <div class="control-grid">
+          <span>🛡️<b>Preventivo</b><small>Escudo 2 s</small></span>
+          <span>🔎<b>Detectivo</b><small>Potencia 2 s</small></span>
+          <span>🔧<b>Correctivo</b><small>Mitiga 2 s</small></span>
+        </div>
+      </div>
+    </div>
+
+
     <div class="qrbox"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAjQAAAI0CAIAAACF6SRUAAANGElEQVR4nO3cQY7rRhAFQcvQ/a883nvxUYDbNdlkxAGGEslRojfv8/Pz8xcAlPz92x8AAP5NnADIEScAcsQJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIEScAcr6bF/t8PpuXS/n5+Tnydzbv4eQzn/o8tWudMvnMb/7uNZvP4kab74+TEwA54gRAjjgBkCNOAOSIEwA54gRAjjgBkCNOAOSIEwA54gRAjjgBkLO6rTexud10Sm3vbqK2D3Zqg+7UtSY2P8/m5tvms5i48Tfhxs9c+01wcgIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHJy23oTN27Z1ZzaatvcfJuo7eadsrmbd0ptC3Fi87k/9Xud4uQEQI44AZAjTgDkiBMAOeIEQI44AZAjTgDkiBMAOeIEQI44AZAjTgDkXLmt92abe1ynbO56PXUbbeLG/bRT+42nrkWHkxMAOeIEQI44AZAjTgDkiBMAOeIEQI44AZAjTgDkiBMAOeIEQI44AZBjWy/kxp2x2l7Z5v2ZXGvzmU7UvlftedHh5ARAjjgBkCNOAOSIEwA54gRAjjgBkCNOAOSIEwA54gRAjjgBkCNOAORcua331I2sU5tmp9R2/GrXmqjdw9oe4Js38Z76vU5xcgIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHJy23q1bbRNp3bGan9n4sbvdePf2XTj/altIb6ZkxMAOeIEQI44AZAjTgDkiBMAOeIEQI44AZAjTgDkiBMAOeIEQI44AZDzObUlxX93ao+rtjM28dT9tNr/142bb29+Xm/m5ARAjjgBkCNOAOSIEwA54gRAjjgBkCNOAOSIEwA54gRAjjgBkCNOAORcua23uUE3ceNe2cSbt+xq79gpb35XJ968b1nj5ARAjjgBkCNOAOSIEwA54gRAjjgBkCNOAOSIEwA54gRAjjgBkCNOAOR8Ny9W2606pbaj9eb9tM37vLl7duPW36lnMfk7tXd+8/PUfutOcXICIEecAMgRJwByxAmAHHECIEecAMgRJwByxAmAHHECIEecAMgRJwByVrf1NjfxNnfYartem3tltftT+zybW383unEz8Klq99DJCYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyPnU9pQ299w2/87Em3fGbtzf23zum8+09h7euPF4ypt/W5ycAMgRJwByxAmAHHECIEecAMgRJwByxAmAHHECIEecAMgRJwByxAmAnNVtvaduW9mF27nWRG1DrHZ/TqltV775Pp9Suz9OTgDkiBMAOeIEQI44AZAjTgDkiBMAOeIEQI44AZAjTgDkiBMAOeIEQM73tz/A/2VzE29zh21za+vUtWqbirWtttounL27P9v8Xjc+91OcnADIEScAcsQJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIEScAcsQJgJzVbb3aBt2N22g3bpFt7hyesrkd99TvPlH77pve/N0nnJwAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYCc1W29U1tStU282n7aUze7btwVfPPG41O3Byc2n8XEjffQyQmAHHECIEecAMgRJwByxAmAHHECIEecAMgRJwByxAmAHHECIEecAMhZ3dY75caNvk2be2W1vbvNPbfaLlztfd58Nzaf6Y33ufZ/OuHkBECOOAGQI04A5IgTADniBECOOAGQI04A5IgTADniBECOOAGQI04A5Hw2N5c2t6SeumlW++5vduNe2cSN/zsTtd+f2v9y7X12cgIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHJWt/Um3rwLd+PW1uaG2ObfOWVzz23ixvfn1LVq3vzdJ5ycAMgRJwByxAmAHHECIEecAMgRJwByxAmAHHECIEecAMgRJwByxAmAnO9vf4DfVNukunFXsLYHOLG5v3fj/bnxM29uM55y6vM8dZfSyQmAHHECIEecAMgRJwByxAmAHHECIEecAMgRJwByxAmAHHECIEecAMh57Lbe5pbUqT2uG/evat/91LUmTj2LG597baeupvb7U3t/JpycAMgRJwByxAmAHHECIEecAMgRJwByxAmAHHECIEecAMgRJwByxAmAnE9tT2lic7Nrc4dtova8aptdm3tltT3A2jv25m29TTe+GxNOTgDkiBMAOeIEQI44AZAjTgDkiBMAOeIEQI44AZAjTgDkiBMAOeIEQM5382K1TbzJ56ltUtW24968m3fKU6818dSdwxvVvpeTEwA54gRAjjgBkCNOAOSIEwA54gRAjjgBkCNOAOSIEwA54gRAjjgBkLO6rTexuYl3467XKbVNvIna8zq1PVjbfKttD07U3rFTTt3nGzcnnZwAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYCc3LbeRG3/qrabV/s8E7Wtv9p23ETtud+45zZRe1efyskJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIWd3W29zEu/FaN37mU9eaePN3r93Dp25X3vhunLpWbcfPyQmAHHECIEecAMgRJwByxAmAHHECIEecAMgRJwByxAmAHHECIEecAMhZ3dY7ZXPLbmJzr+zUd69to21u0N24jVaz+b+z+Uxv/B+8cTdvwskJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIEScAcsQJgBxxAiBHnADI+dT2wW7cgKrtjG2q7dTdeA9rNv8Ha7twtXdjc+uv9t2dnADIEScAcsQJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIEScAcsQJgJzctl5NbeuvtkW2aXN/b+LNn6f2u1HboKvtAdbesQknJwByxAmAHHECIEecAMgRJwByxAmAHHECIEecAMgRJwByxAmAHHECIOfKbb03b3+dutbE5hbZxFM3Aydq97D2bkzUPs9EbaNvk5MTADniBECOOAGQI04A5IgTADniBECOOAGQI04A5IgTADniBECOOAGQs7qt9+YdtlNbZLVrTdQ2u258D2v/p6e8+Xvd+G5scnICIEecAMgRJwByxAmAHHECIEecAMgRJwByxAmAHHECIEecAMgRJwByVrf1Np3aT6vtsNU+8ym1nbHa56mp7dRtqv1/PfVZODkBkCNOAOSIEwA54gRAjjgBkCNOAOSIEwA54gRAjjgBkCNOAOSIEwA5uW29zZ2oNzu10bfpqRuGb95vrL1jNZv3sNYCJycAcsQJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIEScAcsQJgBxxAiAnt633ZrWNtYnadtzE5p5b7XmdUtvfe+p7WHt/Nu+PkxMAOeIEQI44AZAjTgDkiBMAOeIEQI44AZAjTgDkiBMAOeIEQI44AZDz3bxYbR9s040bhrW9sto+2I0bfTWbu3mn1N75U9eqvWNOTgDkiBMAOeIEQI44AZAjTgDkiBMAOeIEQI44AZAjTgDkiBMAOeIEQM7qtt5Ebd9pYnPz7dTW1ua1avfnlDffw1Pv2MSN9/CUG38PT3FyAiBHnADIEScAcsQJgBxxAiBHnADIEScAcsQJgBxxAiBHnADIEScAcnLbehO1/bRNtQ2xzWdxamPt1LUmavt7p75Xbe/ulNrnmdh8Fpu/h05OAOSIEwA54gRAjjgBkCNOAOSIEwA54gRAjjgBkCNOAOSIEwA54gRAzpXbek+1uec2Ufs8p9S27Dbvz+beXW2f8NS1TqltIdY4OQGQI04A5IgTADniBECOOAGQI04A5IgTADniBECOOAGQI04A5IgTADm29S6zuZu3uS+3aXOrbeLUszj1btS2GSfevN944/OacHICIEecAMgRJwByxAmAHHECIEecAMgRJwByxAmAHHECIEecAMgRJwByrtzWq+1onVLbyNrcB5u48Vqb+4S1+7P5d2q7cDfu5tV+V52cAMgRJwByxAmAHHECIEecAMgRJwByxAmAHHECIEecAMgRJwByxAmAnM/mnlJt/2rTUzfEap66RVbbYZuofZ5Taht0E7X3ecLJCYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyFnd1gOACScnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIgR5wAyBEnAHLECYAccQIg5x9HCKubEnKCOwAAAABJRU5ErkJggg==" alt="QR para jugar Risk Defender"></div>
     <div class="scan">📱 ESCANEA EL QR Y JUEGA</div>
 
     <div class="steps">
-      <div class="step"><span class="n">1</span><span>Ingresa tu alias</span></div>
-      <div class="step"><span class="n">2</span><span>Detecta señales y controles</span></div>
-      <div class="step"><span class="n">3</span><span>Enfrenta el riesgo</span></div>
+      <div class="step"><span class="n">1</span><span class="step-text">Ingresa tu<br>alias</span></div>
+      <div class="step"><span class="n">2</span><span class="step-text">Desplázate y recoge<br>controles</span></div>
+      <div class="step"><span class="n">3</span><span class="step-text">Enfrenta el<br>reto final</span></div>
     </div>
 
     <div class="footerline">DETECTA. DECIDE. <span>DEFIENDE.</span></div>
