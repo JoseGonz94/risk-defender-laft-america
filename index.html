@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#123e67">
-<title>Risk Defender · LAFT América · v30</title>
+<title>Risk Defender · LAFT América · v38</title>
 <style>html,body{margin:0;padding:0;background:#fff}body{padding:10px;max-width:980px;margin:0 auto}
 /* ============================================================
    v13 · AJUSTE RESPONSIVO PARA CELULAR EN HORIZONTAL
@@ -2632,16 +2632,74 @@ function renderOnlineSnapshot(snapshot,currentAlias,currentScore){
   renderBoard(board,currentAlias);
   setRankMode('RANKING ONLINE',`Ranking compartido de LAFT América · ${x.players} jugadores · ${x.games} partidas.`);
 }
-async function rankInfoOnline(alias,score){
-  setRankMode('SINCRONIZANDO…','Registrando tu puntaje en el ranking compartido…');
+const PENDING_SYNC_KEY='riskDefender_pendingSync_v38';
+let syncingPending=false;
+
+function makeEventId(){
   try{
-    await rpcOnline('submit_risk_defender_score',{p_alias:alias,p_score:score});
+    if(crypto&&typeof crypto.randomUUID==='function')return crypto.randomUUID();
+  }catch(e){}
+  return 'rd-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
+}
+function loadPendingResults(){
+  try{
+    const x=JSON.parse(localStorage.getItem(PENDING_SYNC_KEY)||'[]');
+    return Array.isArray(x)?x.filter(z=>z&&z.event_id&&z.alias&&Number.isFinite(Number(z.score))):[];
+  }catch(e){return[]}
+}
+function savePendingResults(items){
+  try{localStorage.setItem(PENDING_SYNC_KEY,JSON.stringify(items.slice(-100)))}catch(e){}
+}
+function queuePendingResult(alias,score){
+  const item={event_id:makeEventId(),alias:cleanAlias(alias),score:Number(score),created_at:Date.now()};
+  const items=loadPendingResults();
+  items.push(item);savePendingResults(items);
+  return item;
+}
+function removePendingResult(eventId){
+  savePendingResults(loadPendingResults().filter(z=>z.event_id!==eventId));
+}
+async function syncOnePending(item){
+  await rpcOnline('submit_risk_defender_score_v2',{
+    p_event_id:item.event_id,
+    p_alias:item.alias,
+    p_score:item.score
+  });
+  removePendingResult(item.event_id);
+  return true;
+}
+async function flushPendingResults(){
+  if(syncingPending||!onlineConfigured()||!navigator.onLine)return false;
+  const items=loadPendingResults();
+  if(!items.length)return true;
+  syncingPending=true;
+  let allOk=true;
+  try{
+    for(const item of items){
+      try{await syncOnePending(item)}
+      catch(err){allOk=false;console.warn('Resultado pendiente aún sin sincronizar',item,err);break}
+    }
+  }finally{syncingPending=false}
+  return allOk;
+}
+async function rankInfoOnline(alias,score){
+  // Primero se guarda localmente como pendiente. Solo se elimina cuando
+  // Supabase confirma la recepción. El event_id hace los reintentos idempotentes.
+  const pending=queuePendingResult(alias,score);
+  rankInfoLocal(alias,score);
+  setRankMode('SINCRONIZANDO…','Guardamos tu resultado en este celular y lo estamos enviando al ranking…');
+  try{
+    await syncOnePending(pending);
     const snap=await rpcOnline('get_risk_defender_snapshot',{p_alias:alias});
     renderOnlineSnapshot(snap,alias,score);
+    // Recupera en segundo plano cualquier partida anterior pendiente.
+    flushPendingResults();
   }catch(err){
-    console.warn('Ranking online no disponible; usando respaldo local.',err);
-    rankInfoLocal(alias,score);
-    setRankMode('RANKING LOCAL','No se pudo conectar al ranking compartido. Tu resultado quedó guardado localmente como respaldo.');
+    console.warn('Resultado guardado como pendiente de sincronización.',err);
+    setRankMode(
+      'PENDIENTE DE SINCRONIZAR',
+      'Tu resultado está guardado en este celular. Risk Defender reintentará automáticamente cuando haya conexión.'
+    );
   }
 }
 
@@ -2689,6 +2747,13 @@ function rankInfo(alias,score){
     setRankMode('RANKING LOCAL','Modo de prueba: ranking guardado únicamente en este dispositivo.');
   }
 }
+
+// Reintentos automáticos: al abrir, recuperar conexión, volver a la pestaña
+// y cada 15 segundos mientras existan resultados pendientes.
+window.addEventListener('online',()=>flushPendingResults());
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)flushPendingResults()});
+setTimeout(()=>flushPendingResults(),1200);
+setInterval(()=>{if(loadPendingResults().length)flushPendingResults()},15000);
 function score(){$('score').textContent=String(s.score).padStart(4,'0')}
 function player(){$('player').style.left=L[s.lane]+'%'}
 function toast(x,m=450){clearTimeout(tt);$('toast').textContent=x;$('toast').style.opacity=1;tt=setTimeout(()=>{$('toast').style.opacity=0},m)}
