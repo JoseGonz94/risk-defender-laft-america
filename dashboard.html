@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Risk Defender · Dashboard LAFT América · v36</title>
+<title>Risk Defender · Dashboard LAFT América · v37</title>
 <meta name="theme-color" content="#061b2c">
 <style>
 
@@ -281,6 +281,27 @@ body{background:#041827;color:#fff}
   .tablehead,.row{grid-template-columns:48px minmax(110px,1.45fr) minmax(90px,.8fr) 100px}
 }
 
+
+
+/* v37 · Nicknames largos */
+.tablehead,.row{
+  grid-template-columns:54px minmax(260px,2.65fr) minmax(105px,.72fr) 96px !important;
+}
+.alias{
+  min-width:0 !important;
+  width:100% !important;
+  padding-right:.7vw !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  font-size:clamp(10px,.74vw,15px) !important;
+}
+@media (max-width:1400px){
+  .tablehead,.row{
+    grid-template-columns:50px minmax(215px,2.45fr) minmax(95px,.70fr) 88px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -405,7 +426,7 @@ let firstLoad=true;
 let busy=false;
 
 function cleanAlias(v){
-  return String(v||'').toUpperCase().replace(/[^A-Z0-9 _-]/g,'').trim().slice(0,12);
+  return String(v||'').toUpperCase().replace(/[^A-Z0-9 _-]/g,'').trim().slice(0,100);
 }
 function fmt(n){ return Number(n||0).toLocaleString('es-CO'); }
 
